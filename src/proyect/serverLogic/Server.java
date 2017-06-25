@@ -10,39 +10,41 @@ public final class Server {
 	private static Server instance;
 	private ArrayList<Session> sessions;
 	private int defaultPort;
-	private String welcomeMsj;
 	private String ip;
 
 	private Server() {
-		try {
-			initializeVars();
-			serverSocket = new ServerSocket(defaultPort);
-			serverSocket.setSoTimeout(0);
-			System.out.println("Servidor escuchando en " + ip + ":" + serverSocket.getLocalPort());
-		} catch (Exception e) {
-			System.out.println("Puerto " + defaultPort + " ocupado, intentando con otro");
-		} finally {
-			defaultPort = defaultPort + 100;
-		}
+		boolean done= false;
+		do {
+			try {
+				initializeVars();
+				serverSocket = new ServerSocket(defaultPort);
+				serverSocket.setSoTimeout(0);
+				System.out.println("Servidor escuchando en " + ip + ":" + serverSocket.getLocalPort());
+				done = true;
+			} catch (Exception e) {
+				System.out.println("Puerto " + defaultPort + " ocupado, intentando con otro");
+			} finally {
+				defaultPort = defaultPort + 100;
+			}
+		} while (!done);
 	}
-
+	
 	public void listen() {
 		while (true) {
 			try {
 				Socket request = serverSocket.accept();
 				System.out.println("Se conecto " + request.getRemoteSocketAddress());
-				Session s = new Session(request, welcomeMsj);
-
-				Thread t = new Thread(s);
+				
+				Session s = new Session(request);
 				sessions.add(s);
-				t.start();
-
+				s.start();
+				
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}
 	}
-
+	
 	private boolean isActiveSession(String user) {
 		boolean res = false;
 		// for (Client c : clientList) {
@@ -86,20 +88,20 @@ public final class Server {
 	}
 
 	public void initializeVars() {
-		welcomeMsj = "HOLA DESDE EL SERVIDOR \n";
 		defaultPort = 8080;
 		sessions = new ArrayList<Session>();
 		try {
 			ip = InetAddress.getLocalHost().getHostAddress();
 		} catch (Exception e) {
+			
 		}
-
 	}
 
 	public ArrayList<Session> getSessions() {
 		return this.sessions;
 	}
-
+	
+	
 	// public void run() {
 	// while (true) {
 	// try {

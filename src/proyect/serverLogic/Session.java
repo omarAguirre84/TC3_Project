@@ -1,42 +1,42 @@
 package proyect.serverLogic;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.Socket;
-import java.util.ArrayList;
 
-import project.exceptions.NotClientException;
-
-public class Session implements Runnable {
+public class Session extends Thread  {
 
 	private Socket request;
 	private String user;
-	private DataOutputStream out;
+//	private DataOutputStream out;
+	private BufferedOutputStream out2;
 	private BufferedReader in;
 	private Server server;
-
-	public Session(Socket r, String welcomeMsg) {
+	String welcomeMsg = "HOLA DESDE EL SERVIDOR";
+	
+	public Session(Socket r) {
 		server = Server.getInstance();
 		request = r;
 		try {
-			out = new DataOutputStream(request.getOutputStream());
+//			out = new DataOutputStream(request.getOutputStream());
+			out2 = new BufferedOutputStream(request.getOutputStream());
 			in = new BufferedReader(new InputStreamReader(request.getInputStream()));
 		} catch (Exception e) {
-			
 		}
 
 		send(welcomeMsg);
-		send("Ingrese Usuario \n");
+		send("Ingrese Usuario: ");
 		user = receive();
 	}
 
 	public void send(String msg) {
 		try {
-			out.writeUTF(msg);
+			byte[] a = msg.getBytes();
+			out2.write(a);
+//			out.writeUTF(msg+"\n");
 		} catch (IOException e) {
 			System.out.println("El usuario " +user + " se desconecto");
 			server.disconnectClient(user);
@@ -48,7 +48,6 @@ public class Session implements Runnable {
 		try {
 			msg = in.readLine();
 			System.out.println(user + ": " + msg);
-			int h = msg.hashCode();
 			sendAll(user + ": " + msg + "\n");
 
 		} catch (IOException e) {
