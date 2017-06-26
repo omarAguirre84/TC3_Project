@@ -3,7 +3,7 @@
   associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="proyect.serverLogic.Session" project="2017_TC3_Proy" 
     file="/2017_TC3_Proy/src/proyect/serverLogic/Session.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="261" width="137" x="243" y="374"/>    
+    <position height="-1" width="-1" x="477" y="164"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="proyect.serverLogic.Server" project="2017_TC3_Proy" 
     file="/2017_TC3_Proy/src/proyect/serverLogic/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="279" width="193" x="243" y="37"/>    
+    <position height="-1" width="-1" x="127" y="161"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,51 +30,58 @@
   </class>  
   <class id="4" language="java" name="project.exceptions.NotClientException" project="2017_TC3_Proy" 
     file="/2017_TC3_Proy/src/project/exceptions/NotClientException.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="568" y="510"/>    
+    <position height="-1" width="-1" x="286" y="451"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="5">    
+  <dependency id="5">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <association id="6">    
+    <bendpoint x="285" y="220"/>    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="6" name="instance">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="7" name="sessions">        
+        <position height="0" width="0" x="166" y="-340"/>      
       </attribute>      
-      <multiplicity id="7" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="8">    
-    <bendpoint x="294" y="329"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="9" name="sessions">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="10" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="8" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="166" y="-340"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="11">    
-    <bendpoint x="361" y="337"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="12" name="server">        
-        <position height="0" width="0" x="0" y="0"/>      
+  <association id="9">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="10" name="instance">        
+        <position height="0" width="0" x="-212" y="-15"/>      
       </attribute>      
-      <multiplicity id="13" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-212" y="-15"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="12">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="13" name="server">        
+        <position height="0" width="0" x="-212" y="-15"/>      
+      </attribute>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-212" y="-15"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="15">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import project.exceptions.NotClientException;
+
 public final class Server {
 	private ServerSocket serverSocket;
 	private static Server instance;
@@ -32,12 +34,17 @@ public final class Server {
 	public void listen() {
 		while (true) {
 			try {
-				Socket request = serverSocket.accept();
-				System.out.println("Se conecto " + request.getRemoteSocketAddress());
+				Socket clientSocket = serverSocket.accept();
+				System.out.println("Se conecto " + clientSocket.getRemoteSocketAddress());
 				
-				Session s = new Session(request);
-				sessions.add(s);
-				s.start();
+				new Thread(new Runnable() {
+					@Override
+					public void run(){
+						Session s = new Session(clientSocket);
+			        	sessions.add(s);
+			        	s.run();
+			        }
+			    }).start();
 				
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -45,23 +52,31 @@ public final class Server {
 		}
 	}
 	
-	private boolean isActiveSession(String user) {
+	public boolean isActiveSession(Session userSession) {
 		boolean res = false;
-		// for (Client c : clientList) {
-		// if (user.equals(c.getUser())) {
-		// if (pass.equals(c.getPassword())) {
-		// res = true;
-		// }
-		// }
-		// }
+		try {
+			for (Session s : this.sessions) {
+				if (s.equals(userSession)) {
+					res = true;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return res;
 	}
 
-	public void disconnectClient(String user) {
+	public void disconnectClient(Session user) throws NotClientException {
+		String name = user.getUser();
 		try {
-			this.sessions.remove(getSession(user));
+			if (this.sessions.contains(user)) {
+				user.getRequest().close();
+				user.currentThread().interrupt();
+				this.sessions.remove(user);
+				System.out.println(name + " DESCONECTADO");
+			}
 		} catch (Exception e) {
-
+			throw new NotClientException();
 		}
 	}
 
@@ -93,7 +108,7 @@ public final class Server {
 		try {
 			ip = InetAddress.getLocalHost().getHostAddress();
 		} catch (Exception e) {
-			
+			System.out.println("no ip");
 		}
 	}
 
