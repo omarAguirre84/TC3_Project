@@ -18,9 +18,11 @@ public final class Server {
 		boolean done= false;
 		do {
 			try {
-				initializeVars();
+				defaultPort = 8080;
+				sessions = new ArrayList<Session>();
 				serverSocket = new ServerSocket(defaultPort);
 				serverSocket.setSoTimeout(0);
+				ip = InetAddress.getLocalHost().getHostAddress();
 				System.out.println("Servidor escuchando en " + ip + ":" + serverSocket.getLocalPort());
 				done = true;
 			} catch (Exception e) {
@@ -66,13 +68,13 @@ public final class Server {
 		return res;
 	}
 
-	public void disconnectClient(Session user) throws NotClientException {
-		String name = user.getUser();
+	public void disconnectClient(Session clientSocket) throws NotClientException {
+		String name = clientSocket.getUser();
 		try {
-			if (this.sessions.contains(user)) {
-				user.getRequest().close();
-				user.currentThread().interrupt();
-				this.sessions.remove(user);
+			if (this.sessions.contains(clientSocket)) {
+				clientSocket.getRequest().close();
+				clientSocket.interrupt();
+				this.sessions.remove(clientSocket);
 				System.out.println(name + " DESCONECTADO");
 			}
 		} catch (Exception e) {
@@ -81,18 +83,7 @@ public final class Server {
 	}
 
 	private Session getSession(String user) {
-		Session res = null;
-		boolean done = false;
-
-		do {
-			for (Session s : sessions) {
-				if (user.equals(s.getUser())) {
-					res = s;
-				}
-			}
-		} while (!done);
-
-		return res;
+		return null;
 	}
 
 	public static Server getInstance() {
@@ -100,16 +91,6 @@ public final class Server {
 			instance = new Server();
 		}
 		return instance;
-	}
-
-	public void initializeVars() {
-		defaultPort = 8080;
-		sessions = new ArrayList<Session>();
-		try {
-			ip = InetAddress.getLocalHost().getHostAddress();
-		} catch (Exception e) {
-			System.out.println("no ip");
-		}
 	}
 
 	public ArrayList<Session> getSessions() {

@@ -1,5 +1,5 @@
 package proyect.serverLogic;
 
-public class RoomFactory {
+public interface UserFactory {
 	
 }
