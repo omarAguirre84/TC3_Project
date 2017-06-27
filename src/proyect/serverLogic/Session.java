@@ -5,18 +5,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import project.exceptions.NotClientException;
+import proyect.user.User;
 
 public class Session extends Thread {
 
 	private Socket request;
-	private String user;
+	private User user;
 	private PrintWriter out;
 	private BufferedReader in;
 	private Server server;
-	String welcomeMsg = "PROYECTO CHAT";
-	String adminPass = "123";
+	private String welcomeMsg = "PROYECTO CHAT";
+	private String adminPass = "123";
 
 	public Session(Socket clientSocket) {
 		server = Server.getInstance();
@@ -44,9 +46,14 @@ public class Session extends Thread {
 	public void userWelcome(){
 		send(welcomeMsg);
 		send("Ingrese Usuario: ");
-		user = receive();
-		send("***BIENVENIDO: "+user+" ****");
+		
+		this.user.setUserName(this.receive());
+		send("***BIENVENIDO: "+user.getUserName()+" ****");
 		send("quit, para salir del chat");
+	}
+	private ArrayList<String> menu(){
+		
+		return null;
 	}
 
 	public void send(String msg) {
@@ -90,6 +97,9 @@ public class Session extends Thread {
 	public Socket getRequest() {
 		return request;
 	}
+	public User getUser() {
+		return this.user;
+	}
 
 	private void sendAll(String msg) {
 		try {
@@ -101,12 +111,8 @@ public class Session extends Thread {
 		} catch (NullPointerException e) {}
 	}
 
-	public String getUser() {
-		return this.user;
-	}
-
-	@Override
-	public void run() {
+//	@Override
+	public void process() {
 		boolean run = true;
 		while (run) {
 			if (!this.request.isClosed()) {

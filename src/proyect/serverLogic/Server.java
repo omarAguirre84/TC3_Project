@@ -6,29 +6,33 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import project.exceptions.NotClientException;
+import proyect.user.UserFactory;
 
 public final class Server {
 	private ServerSocket serverSocket;
 	private static Server instance;
-	private ArrayList<Session> sessions;
-	private int defaultPort;
-	private String ip;
+	private ArrayList<Session> clientSessionsList;
+	private int serverDefaultPort;
+	private String serverIp;
+	private MessageLog log;
+	private UserFactory userFactory;
 
 	private Server() {
 		boolean done= false;
 		do {
 			try {
-				defaultPort = 8080;
-				sessions = new ArrayList<Session>();
-				serverSocket = new ServerSocket(defaultPort);
+				serverDefaultPort = 8080;
+				clientSessionsList = new ArrayList<Session>();
+				serverSocket = new ServerSocket(serverDefaultPort);
 				serverSocket.setSoTimeout(0);
-				ip = InetAddress.getLocalHost().getHostAddress();
-				System.out.println("Servidor escuchando en " + ip + ":" + serverSocket.getLocalPort());
+				serverIp = InetAddress.getLocalHost().getHostAddress();
+				System.out.println("Servidor escuchando en " + serverIp + ":" + serverSocket.getLocalPort());
+				
 				done = true;
 			} catch (Exception e) {
-				System.out.println("Puerto " + defaultPort + " ocupado, intentando con otro");
+				System.out.println("Puerto " + serverDefaultPort + " ocupado, intentando con otro");
 			} finally {
-				defaultPort = defaultPort + 100;
+				serverDefaultPort = serverDefaultPort + 100;
 			}
 		} while (!done);
 	}
@@ -43,11 +47,10 @@ public final class Server {
 					@Override
 					public void run(){
 						Session s = new Session(clientSocket);
-			        	sessions.add(s);
-			        	s.run();
+			        	clientSessionsList.add(s);
+			        	s.process();
 			        }
 			    }).start();
-				
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -57,7 +60,7 @@ public final class Server {
 	public boolean isActiveSession(Session userSession) {
 		boolean res = false;
 		try {
-			for (Session s : this.sessions) {
+			for (Session s : this.clientSessionsList) {
 				if (s.equals(userSession)) {
 					res = true;
 				}
@@ -69,12 +72,12 @@ public final class Server {
 	}
 
 	public void disconnectClient(Session clientSocket) throws NotClientException {
-		String name = clientSocket.getUser();
+		String name = clientSocket.getUser().getUserName();
 		try {
-			if (this.sessions.contains(clientSocket)) {
+			if (this.clientSessionsList.contains(clientSocket)) {
 				clientSocket.getRequest().close();
 				clientSocket.interrupt();
-				this.sessions.remove(clientSocket);
+				this.clientSessionsList.remove(clientSocket);
 				System.out.println(name + " DESCONECTADO");
 			}
 		} catch (Exception e) {
@@ -82,8 +85,14 @@ public final class Server {
 		}
 	}
 
-	private Session getSession(String user) {
-		return null;
+	private Session getSessionByUser(String userName) {
+		Session res = null;
+		for (Session session : clientSessionsList) {
+//			if(session.equals(s)){
+//				res=session;
+//			}
+		}
+		return res;
 	}
 
 	public static Server getInstance() {
@@ -94,7 +103,7 @@ public final class Server {
 	}
 
 	public ArrayList<Session> getSessions() {
-		return this.sessions;
+		return this.clientSessionsList;
 	}
 	
 	
