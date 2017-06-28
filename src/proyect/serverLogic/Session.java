@@ -13,7 +13,7 @@ import proyect.user.User;
 public class Session extends Thread {
 
 	private Socket request;
-	private User user;
+	private String user;
 	private PrintWriter out;
 	private BufferedReader in;
 	private Server server;
@@ -47,8 +47,8 @@ public class Session extends Thread {
 		send(welcomeMsg);
 		send("Ingrese Usuario: ");
 		
-		this.user.setUserName(this.receive());
-		send("***BIENVENIDO: "+user.getUserName()+" ****");
+		user = this.receive();
+		send("***BIENVENIDO: "+user+" ****");
 		send("quit, para salir del chat");
 	}
 	private ArrayList<String> menu(){
@@ -97,7 +97,7 @@ public class Session extends Thread {
 	public Socket getRequest() {
 		return request;
 	}
-	public User getUser() {
+	public String getUser() {
 		return this.user;
 	}
 

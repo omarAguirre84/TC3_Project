@@ -72,7 +72,7 @@ public final class Server {
 	}
 
 	public void disconnectClient(Session clientSocket) throws NotClientException {
-		String name = clientSocket.getUser().getUserName();
+		String name = clientSocket.getUser();
 		try {
 			if (this.clientSessionsList.contains(clientSocket)) {
 				clientSocket.getRequest().close();
@@ -83,16 +83,6 @@ public final class Server {
 		} catch (Exception e) {
 			throw new NotClientException();
 		}
-	}
-
-	private Session getSessionByUser(String userName) {
-		Session res = null;
-		for (Session session : clientSessionsList) {
-//			if(session.equals(s)){
-//				res=session;
-//			}
-		}
-		return res;
 	}
 
 	public static Server getInstance() {
