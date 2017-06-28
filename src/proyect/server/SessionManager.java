@@ -1,11 +1,14 @@
-package proyect.serverLogic;
+package proyect.server;
 
 import java.util.ArrayList;
 
-public class SessionManager {
+public final class SessionManager {
 	private ArrayList<Session> sessionsList;
+	private MessageLogger messageLogger;
+	
 	
 	public SessionManager(){
+		this.messageLogger = MessageLogger.getInstance();
 		this.sessionsList = new ArrayList<Session>(); 
 	}
 
@@ -16,8 +19,8 @@ public class SessionManager {
 	
 	public boolean isActiveSession(Session session) {
 		boolean res = false;
-			for (Session s : this.sessionsList) {
-				if (s.equals(session)) {
+		for (Session s : this.sessionsList) {
+				if (s.hashCode() == session.hashCode()) {
 					res = true;
 				}
 			}
@@ -45,6 +48,9 @@ public class SessionManager {
 			}
 		}
 		return res;
+	}
+	public MessageLogger getMessageLogger(){
+		return this.messageLogger;
 	}
 	public ArrayList<Session> getSessionsList() {
 		return sessionsList;

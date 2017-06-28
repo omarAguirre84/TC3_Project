@@ -1,4 +1,4 @@
-package proyect.serverLogic;
+package proyect.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,23 +9,24 @@ import java.util.ArrayList;
 
 public class Session extends Thread {
 
-	private Socket request;
+	private Socket clientSocket;
 	private String user;
 	private PrintWriter out;
 	private BufferedReader in;
-	private Server server;
 	private String welcomeMsg = "PROYECTO CHAT";
 	private String adminPass = "123";
 	private SessionManager sessionManager;
 
-	public Session(Socket clientSocket) {
+	public Session(Socket clientSocket, SessionManager sm) {
 		user = "";
-		server = Server.getInstance();
-		request = clientSocket;
+		this.clientSocket = clientSocket;
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		} catch (Exception e) {
+		}
+		if(sm != null){
+			this.sessionManager = sm;
 		}
 		userWelcome();
 	}
@@ -50,8 +51,8 @@ public class Session extends Thread {
 		send("***BIENVENIDO: "+user+" ****");
 		send("quit, para salir del chat");
 	}
+	
 	private ArrayList<String> menu(){
-		
 		return null;
 	}
 
@@ -80,7 +81,12 @@ public class Session extends Thread {
 			}
 
 			if (sessionManager.isActiveSession(this)) {
-				System.out.println(user + ": " + msg);
+//				System.out.println(user + ": " + msg);
+				String client_socket = clientSocket.getRemoteSocketAddress().toString() + clientSocket.getPort();
+				
+				this.sessionManager.getMessageLogger().setAllMembers(user, client_socket, msg);
+				
+				System.out.println(this.sessionManager.getMessageLogger().formReg());
 				sendAll(user + ": " + msg);
 			}
 		} catch (IOException | NullPointerException e) {
@@ -90,7 +96,7 @@ public class Session extends Thread {
 	}
 
 	public Socket getRequest() {
-		return request;
+		return clientSocket;
 	}
 	public String getUser() {
 		return this.user;
@@ -99,22 +105,20 @@ public class Session extends Thread {
 		this.sessionManager = sm;
 	}
 
-
 	private void sendAll(String msg) {
 		try {
 			for (Session s : sessionManager.getSessionsList()) {
-				if(this.request.hashCode() != s.getRequest().hashCode() && !msg.contains("admin")){
+				if(this.clientSocket.hashCode() != s.getRequest().hashCode() && !msg.contains("admin")){
 					s.send(msg);
 				}
 			}
 		} catch (NullPointerException e) {}
 	}
 
-//	@Override
 	public void process() {
 		boolean run = true;
 		while (run) {
-			if (!this.request.isClosed()) {
+			if (!this.clientSocket.isClosed()) {
 				receive();
 			} else {
 				run = false;

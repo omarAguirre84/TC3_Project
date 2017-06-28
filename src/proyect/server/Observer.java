@@ -1,4 +1,4 @@
-package proyect.serverLogic;
+package proyect.server;
 
 public interface Observer {
 	

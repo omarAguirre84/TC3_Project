@@ -1,4 +1,4 @@
-package proyect.serverLogic;
+package proyect.server;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -12,11 +12,12 @@ public final class Server {
 	
 	private int serverDefaultPort;
 	private String serverIp;
-	private MessageLog log;
+	
 
 	private Server() {
 		sessionManager = new SessionManager();
 		boolean done= false;
+		
 		do {
 			try {
 				serverDefaultPort = 8080;
@@ -43,11 +44,9 @@ public final class Server {
 				new Thread(new Runnable() {
 					@Override
 					public void run(){
-						Session s = new Session(clientSocket);
-						s.setSessionManager(sessionManager);
-			        	s.process();
-			        	sessionManager.addSession(s);
-			        	
+						Session s = new Session(clientSocket, sessionManager);
+						sessionManager.addSession(s);
+						s.process();
 			        }
 			    }).start();
 			} catch (Exception e) {
@@ -71,8 +70,7 @@ public final class Server {
 	// public void run() {
 	// while (true) {
 	// try {
-	// System.out.println("Waiting for client on port " +
-	// serverSocket.getLocalPort() + "...");
+	// System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
 	// Socket server = serverSocket.accept();
 	//
 	// System.out.println("Just connected to " +

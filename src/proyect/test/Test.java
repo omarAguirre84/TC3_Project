@@ -1,6 +1,6 @@
 package proyect.test;
 
-import proyect.serverLogic.Server;
+import proyect.server.Server;
 
 public class Test {
 	
