@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import project.exceptions.NotClientException;
+import project.exceptions.NotSessionException;
 import proyect.user.User;
 
 public class Session extends Thread {
@@ -30,29 +30,30 @@ public class Session extends Thread {
 		}
 		userWelcome();
 	}
-	
-	public void adminUserWelcome(){
+
+	public void adminUserWelcome() {
 		send("INTENTO DE LOGUE ADMIN");
 		send("Ingrese Password: ");
-		String pass= receive();
-		if(pass.equals(adminPass)){
+		String pass = receive();
+		if (pass.equals(adminPass)) {
 			send("***USUARIO ADMIN****");
 			send("quit, para salir del chat");
-		}else {
+		} else {
 			send("incorrecto");
 		}
 	}
-	
-	public void userWelcome(){
+
+	public void userWelcome() {
 		send(welcomeMsg);
 		send("Ingrese Usuario: ");
-		
+
 		user = this.receive();
-		send("***BIENVENIDO: "+user+" ****");
+		send("***BIENVENIDO: " + user + " ****");
 		send("quit, para salir del chat");
 	}
-	private ArrayList<String> menu(){
-		
+
+	private ArrayList<String> menu() {
+
 		return null;
 	}
 
@@ -60,13 +61,7 @@ public class Session extends Thread {
 		try {
 			out.println(msg);
 		} catch (Exception e) {
-			try {
-				server.disconnectClient(this);
-			} catch (NotClientException e2) {
-				System.out.println(e2.getMessage());
-			} catch (Exception e3) {
-				System.out.println(e3.getMessage());
-			}
+			server.destroySession(this);
 		}
 	}
 
@@ -76,9 +71,9 @@ public class Session extends Thread {
 			msg = in.readLine();
 
 			if (msg.contains("quit")) {
-				server.disconnectClient(this);
+				server.destroySession(this);
 			}
-			if(msg.contains("admin")){
+			if (msg.contains("admin")) {
 				this.adminUserWelcome();
 			}
 
@@ -86,10 +81,11 @@ public class Session extends Thread {
 				System.out.println(user + ": " + msg);
 				sendAll(user + ": " + msg);
 			}
-		} catch (IOException | NotClientException | NullPointerException e) {
+		} catch (IOException | NullPointerException e) {
 			try {
-				server.disconnectClient(this);
-			} catch (Exception e2) {}
+				server.destroySession(this);
+			} catch (Exception e2) {
+			}
 		}
 		return msg;
 	}
@@ -97,6 +93,7 @@ public class Session extends Thread {
 	public Socket getRequest() {
 		return request;
 	}
+
 	public String getUser() {
 		return this.user;
 	}
@@ -104,14 +101,14 @@ public class Session extends Thread {
 	private void sendAll(String msg) {
 		try {
 			for (Session s : server.getSessions()) {
-				if(this.request.hashCode() != s.getRequest().hashCode() && !msg.contains("admin")){
+				if (this.request.hashCode() != s.getRequest().hashCode() && !msg.contains("admin")) {
 					s.send(msg);
 				}
 			}
-		} catch (NullPointerException e) {}
+		} catch (NullPointerException e) {
+		}
 	}
 
-//	@Override
 	public void process() {
 		boolean run = true;
 		while (run) {

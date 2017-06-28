@@ -1,13 +1,13 @@
 package project.exceptions;
 
-public class NotClientException extends Exception{
+public class NotSessionException extends Exception{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public NotClientException() {
+	public NotSessionException() {
 		super("No es cliente registrado");
 	}
 	

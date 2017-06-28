@@ -1,17 +1,17 @@
 package proyect.serverLogic;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import project.exceptions.NotClientException;
 import proyect.user.UserFactory;
 
 public final class Server {
 	private ServerSocket serverSocket;
 	private static Server instance;
-	private ArrayList<Session> clientSessionsList;
+	private ArrayList<Session> sessionsList;
 	private int serverDefaultPort;
 	private String serverIp;
 	private MessageLog log;
@@ -22,7 +22,7 @@ public final class Server {
 		do {
 			try {
 				serverDefaultPort = 8080;
-				clientSessionsList = new ArrayList<Session>();
+				sessionsList = new ArrayList<Session>();
 				serverSocket = new ServerSocket(serverDefaultPort);
 				serverSocket.setSoTimeout(0);
 				serverIp = InetAddress.getLocalHost().getHostAddress();
@@ -47,7 +47,7 @@ public final class Server {
 					@Override
 					public void run(){
 						Session s = new Session(clientSocket);
-			        	clientSessionsList.add(s);
+			        	sessionsList.add(s);
 			        	s.process();
 			        }
 			    }).start();
@@ -60,7 +60,7 @@ public final class Server {
 	public boolean isActiveSession(Session userSession) {
 		boolean res = false;
 		try {
-			for (Session s : this.clientSessionsList) {
+			for (Session s : this.sessionsList) {
 				if (s.equals(userSession)) {
 					res = true;
 				}
@@ -71,17 +71,16 @@ public final class Server {
 		return res;
 	}
 
-	public void disconnectClient(Session clientSocket) throws NotClientException {
+	public void destroySession(Session clientSocket) {
 		String name = clientSocket.getUser();
 		try {
-			if (this.clientSessionsList.contains(clientSocket)) {
+			if (this.sessionsList.contains(clientSocket)) {
 				clientSocket.getRequest().close();
 				clientSocket.interrupt();
-				this.clientSessionsList.remove(clientSocket);
+				this.sessionsList.remove(clientSocket);
 				System.out.println(name + " DESCONECTADO");
 			}
-		} catch (Exception e) {
-			throw new NotClientException();
+		} catch (IOException e) {
 		}
 	}
 
@@ -93,7 +92,7 @@ public final class Server {
 	}
 
 	public ArrayList<Session> getSessions() {
-		return this.clientSessionsList;
+		return this.sessionsList;
 	}
 	
 	
