@@ -16,7 +16,7 @@ public final class Server {
 	private String serverIp;
 	private MessageLog log;
 	private UserFactory userFactory;
-
+	
 	private Server() {
 		boolean done= false;
 		do {
