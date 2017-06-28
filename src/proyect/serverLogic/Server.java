@@ -6,18 +6,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import proyect.user.Client;
 import proyect.user.UserFactory;
 
 public final class Server {
 	private ServerSocket serverSocket;
 	private static Server instance;
 	private ArrayList<Session> sessionsList;
+	private SessionManager sessionManager;
 	private int serverDefaultPort;
 	private String serverIp;
 	private MessageLog log;
 	private UserFactory userFactory;
 	
 	private Server() {
+		sessionManager = new SessionManager();
 		boolean done= false;
 		do {
 			try {
@@ -41,16 +44,10 @@ public final class Server {
 		while (true) {
 			try {
 				Socket clientSocket = serverSocket.accept();
-				System.out.println("Se conecto " + clientSocket.getRemoteSocketAddress());
+//				System.out.println("Se conecto " + clientSocket.getRemoteSocketAddress());
+//				Session s = ;
+				sessionManager.addSession(new Session(clientSocket));
 				
-				new Thread(new Runnable() {
-					@Override
-					public void run(){
-						Session s = new Session(clientSocket);
-			        	sessionsList.add(s);
-			        	s.process();
-			        }
-			    }).start();
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -83,7 +80,9 @@ public final class Server {
 		} catch (IOException e) {
 		}
 	}
-
+	public ArrayList<Session> getSessions() {
+		return this.sessionsList;
+	}
 	public static Server getInstance() {
 		if (instance == null) {
 			instance = new Server();
@@ -91,9 +90,6 @@ public final class Server {
 		return instance;
 	}
 
-	public ArrayList<Session> getSessions() {
-		return this.sessionsList;
-	}
 	
 	
 	// public void run() {
