@@ -7,9 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import project.exceptions.NotSessionException;
-import proyect.user.User;
-
 public class Session extends Thread {
 
 	private Socket request;
@@ -19,8 +16,10 @@ public class Session extends Thread {
 	private Server server;
 	private String welcomeMsg = "PROYECTO CHAT";
 	private String adminPass = "123";
+	private SessionManager sessionManager;
 
 	public Session(Socket clientSocket) {
+		user = "";
 		server = Server.getInstance();
 		request = clientSocket;
 		try {
@@ -30,30 +29,29 @@ public class Session extends Thread {
 		}
 		userWelcome();
 	}
-
-	public void adminUserWelcome() {
+	
+	public void adminUserWelcome(){
 		send("INTENTO DE LOGUE ADMIN");
 		send("Ingrese Password: ");
-		String pass = receive();
-		if (pass.equals(adminPass)) {
+		String pass= receive();
+		if(pass.equals(adminPass)){
 			send("***USUARIO ADMIN****");
 			send("quit, para salir del chat");
-		} else {
+		}else {
 			send("incorrecto");
 		}
 	}
-
-	public void userWelcome() {
+	
+	public void userWelcome(){
 		send(welcomeMsg);
 		send("Ingrese Usuario: ");
-
+		
 		user = this.receive();
-		send("***BIENVENIDO: " + user + " ****");
+		send("***BIENVENIDO: "+user+" ****");
 		send("quit, para salir del chat");
 	}
-
-	private ArrayList<String> menu() {
-
+	private ArrayList<String> menu(){
+		
 		return null;
 	}
 
@@ -61,7 +59,11 @@ public class Session extends Thread {
 		try {
 			out.println(msg);
 		} catch (Exception e) {
-			server.destroySession(this);
+			try {
+				sessionManager.destroySession(this);
+			}  catch (Exception e3) {
+				System.out.println(e3.getMessage());
+			}
 		}
 	}
 
@@ -71,21 +73,18 @@ public class Session extends Thread {
 			msg = in.readLine();
 
 			if (msg.contains("quit")) {
-				server.destroySession(this);
+				sessionManager.destroySession(this);
 			}
-			if (msg.contains("admin")) {
+			if(msg.contains("admin")){
 				this.adminUserWelcome();
 			}
 
-			if (server.isActiveSession(this)) {
+			if (sessionManager.isActiveSession(this)) {
 				System.out.println(user + ": " + msg);
 				sendAll(user + ": " + msg);
 			}
 		} catch (IOException | NullPointerException e) {
-			try {
-				server.destroySession(this);
-			} catch (Exception e2) {
-			}
+			sessionManager.destroySession(this);
 		}
 		return msg;
 	}
@@ -93,22 +92,25 @@ public class Session extends Thread {
 	public Socket getRequest() {
 		return request;
 	}
-
 	public String getUser() {
 		return this.user;
 	}
+	public void setSessionManager(SessionManager sm) {
+		this.sessionManager = sm;
+	}
+
 
 	private void sendAll(String msg) {
 		try {
-			for (Session s : server.getSessions()) {
-				if (this.request.hashCode() != s.getRequest().hashCode() && !msg.contains("admin")) {
+			for (Session s : sessionManager.getSessionsList()) {
+				if(this.request.hashCode() != s.getRequest().hashCode() && !msg.contains("admin")){
 					s.send(msg);
 				}
 			}
-		} catch (NullPointerException e) {
-		}
+		} catch (NullPointerException e) {}
 	}
 
+//	@Override
 	public void process() {
 		boolean run = true;
 		while (run) {

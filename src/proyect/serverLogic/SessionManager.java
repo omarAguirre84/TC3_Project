@@ -12,16 +12,39 @@ public class SessionManager {
 	
 	public void addSession(Session session) {
 		this.sessionsList.add(session);
-		this.startSession(session);
 	}
 	
-	private void startSession(Session s) {
-		new Thread(new Runnable() {
-//			@Override
-			public void run(){
-	        	s.process();
-	        }
-	    }).start();
+	public boolean isActiveSession(Session session) {
+		boolean res = false;
+			for (Session s : this.sessionsList) {
+				if (s.equals(session)) {
+					res = true;
+				}
+			}
+		return res;
+	}
+
+	public void destroySession(Session session) {
+		String name = session.getUser();
+		try {
+			if (this.sessionsList.contains(session)) {
+				session.getRequest().close();
+				session.interrupt();
+				this.sessionsList.remove(session);
+				System.out.println(name + " DESCONECTADO");
+			}
+		} catch (Exception e) {
+		}
+	}
+	
+	public Session getSession(Session session) {
+		Session res = null;
+		for (Session s: sessionsList) {
+			if (s.equals(session)) {
+				res = s;
+			}
+		}
+		return res;
 	}
 	public ArrayList<Session> getSessionsList() {
 		return sessionsList;
