@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
-
-import org.apache.commons.io.FileUtils;
 
 public class OrtFileUtils {
 
@@ -41,22 +37,22 @@ public class OrtFileUtils {
 
 	public static String buscarArchivo(String fileName) {
 		String res = null;
-		File nombre = new File(fileName);
-		File root = new File(nombre.getAbsolutePath().replaceAll("/" + nombre.getName(), ""));
-		try {
-			boolean recursive = true;
-			Collection files = FileUtils.listFiles(root, null, recursive);
-			
-			for (Iterator iterator = files.iterator(); iterator.hasNext();) {
-				File file = (File) iterator.next();
-
-				if (file.getName().contains(fileName)) {
-					res = file.getAbsolutePath();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		File nombre = new File(fileName);
+//		File root = new File(nombre.getAbsolutePath().replaceAll("/" + nombre.getName(), ""));
+//		try {
+//			boolean recursive = true;
+////			Collection files = FileUtils.listFiles(root, null, recursive);
+//			
+//			for (Iterator iterator = files.iterator(); iterator.hasNext();) {
+//				File file = (File) iterator.next();
+//
+//				if (file.getName().contains(fileName)) {
+//					res = file.getAbsolutePath();
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return res;
 	}
 
