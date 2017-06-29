@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class Session extends Thread {
@@ -16,18 +17,17 @@ public class Session extends Thread {
 	private String welcomeMsg = "PROYECTO CHAT";
 	private String adminPass = "123";
 	private SessionManager sessionManager;
-
+	
 	public Session(Socket clientSocket, SessionManager sm) {
 		user = "";
 		this.clientSocket = clientSocket;
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), Charset.forName("UTF8")));
 		} catch (Exception e) {
 		}
-		if(sm != null){
-			this.sessionManager = sm;
-		}
+		
+		this.sessionManager = sm;
 		userWelcome();
 	}
 	
@@ -58,7 +58,7 @@ public class Session extends Thread {
 
 	public void send(String msg) {
 		try {
-			out.println(msg);
+			out.println(msg+"\n"+"\r");
 		} catch (Exception e) {
 			try {
 				sessionManager.destroySession(this);
@@ -81,12 +81,16 @@ public class Session extends Thread {
 			}
 
 			if (sessionManager.isActiveSession(this)) {
-//				System.out.println(user + ": " + msg);
-				String client_socket = clientSocket.getRemoteSocketAddress().toString();
+				String client_socket = clientSocket.getRemoteSocketAddress().toString().replace("/", "");
 				
-				this.sessionManager.getMessageLogger().setAllMembers(user, client_socket, msg);
+				this.sessionManager.getMessageLogger().setAllMembers(this.user, client_socket, msg);
 				
-				System.out.println(this.sessionManager.getMessageLogger().formReg());
+				String msgToLog = this.sessionManager.getMessageLogger().formReg();
+				System.out.println(msgToLog);
+				this.sessionManager.getMessageLogger().getData().save(msgToLog);
+				
+//				System.out.println(this.sessionManager.getMessageLogger().getData().read());
+				
 				sendAll(user + ": " + msg);
 			}
 		} catch (IOException | NullPointerException e) {
