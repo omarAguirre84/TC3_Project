@@ -82,7 +82,7 @@ public class Session extends Thread {
 
 			if (sessionManager.isActiveSession(this)) {
 //				System.out.println(user + ": " + msg);
-				String client_socket = clientSocket.getRemoteSocketAddress().toString() + clientSocket.getPort();
+				String client_socket = clientSocket.getRemoteSocketAddress().toString();
 				
 				this.sessionManager.getMessageLogger().setAllMembers(user, client_socket, msg);
 				
