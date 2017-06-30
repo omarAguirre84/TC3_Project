@@ -47,7 +47,7 @@ public final class Logger {
 		date.add(Calendar.DATE, 0);
 		return new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss.SSS").format(date.getTime()).toString();
 	}
-	private static void setFileHelper(FileHelper fh){
+	public static void setFileHelper(FileHelper fh){
 		fileHelper = fh;
 	}
 }

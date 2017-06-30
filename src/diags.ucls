@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="project.server.SessionManager" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/server/SessionManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="372" y="34"/>    
+    <position height="-1" width="-1" x="369" y="-81"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,230 +12,224 @@
   </class>  
   <class id="2" language="java" name="project.server.FileHelperImpl" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/server/FileHelperImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="119" y="644"/>    
+    <position height="-1" width="-1" x="129" y="455"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="project.server.Server" project="2017_TC3_Project" 
-    file="/2017_TC3_Project/src/project/server/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="99" y="315"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="4" language="java" name="project.user.Client" project="2017_TC3_Project" 
+  <class id="3" language="java" name="project.user.Client" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/user/Client.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1285" y="214"/>    
+    <position height="-1" width="-1" x="1297" y="49"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="project.user.Admin" project="2017_TC3_Project" 
+  <class id="4" language="java" name="project.user.Admin" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/user/Admin.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1285" y="67"/>    
+    <position height="-1" width="-1" x="1297" y="-98"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="project.user.User" project="2017_TC3_Project" 
+  <class id="5" language="java" name="project.user.User" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/user/User.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1034" y="281"/>    
+    <position height="-1" width="-1" x="1046" y="116"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="project.user.UserFactory" project="2017_TC3_Project" 
+  <class id="6" language="java" name="project.user.UserFactory" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/user/UserFactory.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1034" y="35"/>    
+    <position height="-1" width="-1" x="1046" y="-130"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="project.server.Session" project="2017_TC3_Project" 
+  <class id="7" language="java" name="project.server.Session" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/server/Session.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="754" y="139"/>    
+    <position height="-1" width="-1" x="738" y="14"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="9" language="java" name="project.server.FileHelper" project="2017_TC3_Project" 
+  <interface id="8" language="java" name="project.server.FileHelper" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/server/FileHelper.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="383" y="574"/>    
+    <position height="-1" width="-1" x="404" y="505"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="10" language="java" name="project.server.Logger" project="2017_TC3_Project" 
+  <class id="9" language="java" name="project.server.Logger" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/server/Logger.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="404" y="347"/>    
+    <position height="-1" width="-1" x="419" y="237"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="project.server.Menu" project="2017_TC3_Project" 
+  <class id="10" language="java" name="project.server.Menu" project="2017_TC3_Project" 
     file="/2017_TC3_Project/src/project/server/Menu.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1034" y="-149"/>    
+    <position height="-1" width="-1" x="1052" y="356"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="12">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <dependency id="13">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="7"/>  
-  </dependency>  
-  <association id="14">    
-    <bendpoint x="424" y="472"/>    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="15" name="fileHelper"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="17">    
-    <bendpoint x="314" y="206"/>    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <association id="18">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="19" name="sessionManager">        
-        <position height="0" width="0" x="-33" y="-98"/>      
-      </attribute>      
-      <multiplicity id="20" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-33" y="-98"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="21">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="11"/>  
-  </dependency>  
-  <dependency id="22">    
-    <end type="SOURCE" refId="7"/>    
+  <class id="11" language="java" name="project.server.Server" project="2017_TC3_Project" 
+    file="/2017_TC3_Project/src/project/server/Server.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="112" y="140"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="12">    
+    <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="4"/>  
   </dependency>  
-  <dependency id="23">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </dependency>  
-  <realization id="24">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="9"/>  
-  </realization>  
-  <association id="25">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="26" name="instance">        
-        <position height="0" width="0" x="-5" y="40"/>      
-      </attribute>      
-      <multiplicity id="27" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-5" y="40"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="28">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="29" name="user">        
-        <position height="0" width="0" x="-43" y="-16"/>      
-      </attribute>      
-      <multiplicity id="30" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-43" y="-16"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="31">    
-    <bendpoint x="544" y="145"/>    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="32" name="sessionManager">        
-        <position height="0" width="0" x="-33" y="-98"/>      
-      </attribute>      
-      <multiplicity id="33" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-33" y="-98"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="34">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="6"/>  
-  </dependency>  
-  <association id="35">    
-    <bendpoint x="550" y="53"/>    
+  <association id="13">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="36" name="sessionsList">        
-        <position height="0" width="0" x="5" y="-86"/>      
+      <attribute id="14" name="sessionsList">        
+        <position height="0" width="0" x="-11" y="-211"/>      
       </attribute>      
-      <multiplicity id="37" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="5" y="-86"/>      
+      <multiplicity id="15" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-11" y="-211"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="17" name="menu">        
+        <position height="0" width="0" x="18" y="505"/>      
+      </attribute>      
+      <multiplicity id="18" minimum="0" maximum="1">        
+        <position height="0" width="0" x="18" y="505"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="19">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <dependency id="20">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <generalization id="21">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <association id="22">    
+    <bendpoint x="477" y="365"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="23" name="fileHelper">        
+        <position height="0" width="0" x="21" y="-69"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1">        
+        <position height="0" width="0" x="21" y="-69"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="38">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="5"/>  
-  </dependency>  
-  <association id="39">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="40" name="fileHelper">        
-        <position height="0" width="0" x="256" y="-63"/>      
-      </attribute>      
-      <multiplicity id="41" minimum="0" maximum="1">        
-        <position height="0" width="0" x="256" y="-63"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="42">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <dependency id="43">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="10"/>  
-  </dependency>  
-  <association id="44">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="45" name="menu"/>      
-      <multiplicity id="46" minimum="0" maximum="1"/>    
+  <realization id="25">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <association id="26">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="27" name="instance"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <dependency id="29">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="30">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <association id="31">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="32" name="user">        
+        <position height="0" width="0" x="-31" y="-181"/>      
+      </attribute>      
+      <multiplicity id="33" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-31" y="-181"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="34">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="35">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <association id="36">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="37" name="sessionManager"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="39">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <association id="40">    
+    <bendpoint x="530" y="44"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="41" name="sessionManager">        
+        <position height="0" width="0" x="-36" y="-213"/>      
+      </attribute>      
+      <multiplicity id="42" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-213"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="43">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="44" name="fileHelper"/>      
+      <multiplicity id="45" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="46">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

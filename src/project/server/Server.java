@@ -16,6 +16,7 @@ public final class Server {
 	private Server() {
 		sessionManager = new SessionManager();
 		fileHelper = new FileHelperImpl();
+		Logger.setFileHelper(fileHelper);
 		
 		boolean done = false;
 		

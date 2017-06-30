@@ -14,7 +14,6 @@ public class UserFactory {
 
 		case ADMIN:
 			res = new Admin(userName, userType, pass);
-			res.setMenu(new Menu());
 			break;
 		}
 		return res;
