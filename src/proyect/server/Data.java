@@ -1,6 +1,9 @@
 package proyect.server;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -11,7 +14,6 @@ import proyect.server.files.OrtFileUtils;
 
 public final class Data {
 	private File file;
-//	private FileWriter fw;
 	private ArrayList<String> logsToSave;
 	private int cont;
 
@@ -38,6 +40,17 @@ public final class Data {
 		}
 	}
 
+	public void forcedSave(String msg) {
+//		logsToSave.add(msg);
+//		cont++;
+//		if (cont >= 10) {
+//			if (writeTheFileToDisk(file)) {
+//				logsToSave.clear();
+//				cont = 0;
+//			}
+//		}
+	}
+
 	public boolean writeTheFileToDisk(File file) {
 		boolean res = false;
 
@@ -51,13 +64,12 @@ public final class Data {
 			} else {
 				fw = new FileWriter(file);
 			}
-			
+
 			for (String s : logsToSave) {
 				fw.write(s + "\n");
 			}
-
-			 fw.flush();
-			 fw.close();
+			fw.flush();
+			fw.close();
 			res = true;
 		} catch (IOException e) {
 			res = false;
@@ -66,9 +78,25 @@ public final class Data {
 		return res;
 	}
 
-	public void readTheFile(File f) {
+	public void readTheFile() {
 		if (this.file.exists()) {
+			String a = file.getName();
+			if (!file.canRead()) {
+				file.setReadable(true);
+			}
+			try {
+				// FileInputStream fis = new FileInputStream(f);
+				FileReader fr = new FileReader(file);
+				BufferedReader br = new BufferedReader(fr);
+				boolean ok = true;
+				do {
+					String row = br.readLine();
+					System.out.println(row);
+				} while (br.ready());
 
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 
@@ -82,12 +110,12 @@ public final class Data {
 			if (OrtFileUtils.isDirectory(folder)) {
 				if (!file.exists()) {
 					file.createNewFile();
-				} 
+				}
 			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 		return file;
 	}
 

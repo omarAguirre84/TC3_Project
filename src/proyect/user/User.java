@@ -4,6 +4,7 @@ public abstract class User {
 	private String userName;
 	private UserType userType;
 	private String password;
+	private Menu menu;
 
 	public User(String userName, UserType userType, String pass) {
 		this.userName = userName;
@@ -31,4 +32,12 @@ public abstract class User {
 	public void setUserType(UserType userType) {
 		this.userType = userType;
 	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+	
 }

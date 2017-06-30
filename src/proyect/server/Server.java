@@ -7,17 +7,16 @@ import java.net.Socket;
 public final class Server {
 	private ServerSocket serverSocket;
 	private static Server instance;
-	
+
 	private SessionManager sessionManager;
-	
+
 	private int serverDefaultPort;
 	private String serverIp;
-	
 
 	private Server() {
 		sessionManager = new SessionManager();
-		boolean done= false;
-		
+		boolean done = false;
+
 		do {
 			try {
 				serverDefaultPort = 8080;
@@ -25,7 +24,7 @@ public final class Server {
 				serverSocket.setSoTimeout(0);
 				serverIp = InetAddress.getLocalHost().getHostAddress();
 				System.out.println("Servidor escuchando en " + serverIp + ":" + serverSocket.getLocalPort());
-				
+
 				done = true;
 			} catch (Exception e) {
 				System.out.println("Puerto " + serverDefaultPort + " ocupado, intentando con otro");
@@ -34,27 +33,27 @@ public final class Server {
 			}
 		} while (!done);
 	}
-	
+
 	public void listen() {
 		while (true) {
 			try {
 				Socket clientSocket = serverSocket.accept();
 				System.out.println("Se conecto " + clientSocket.getRemoteSocketAddress());
-				
+
 				new Thread(new Runnable() {
 					@Override
-					public void run(){
+					public void run() {
 						Session s = new Session(clientSocket, sessionManager);
 						sessionManager.addSession(s);
 						s.process();
-			        }
-			    }).start();
+					}
+				}).start();
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}
 	}
-	
+
 	public static Server getInstance() {
 		if (instance == null) {
 			instance = new Server();
@@ -62,15 +61,15 @@ public final class Server {
 		return instance;
 	}
 
-//	public ArrayList<Session> getSessions() {
-//		return this.clientSessionsList;
-//	}
-	
-	
+	// public ArrayList<Session> getSessions() {
+	// return this.clientSessionsList;
+	// }
+
 	// public void run() {
 	// while (true) {
 	// try {
-	// System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
+	// System.out.println("Waiting for client on port " +
+	// serverSocket.getLocalPort() + "...");
 	// Socket server = serverSocket.accept();
 	//
 	// System.out.println("Just connected to " +
