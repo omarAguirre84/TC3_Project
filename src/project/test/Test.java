@@ -1,6 +1,6 @@
-package proyect.test;
+package project.test;
 
-import proyect.server.Server;
+import project.server.Server;
 
 public class Test {
 	

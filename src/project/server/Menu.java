@@ -1,4 +1,4 @@
-package proyect.user;
+package project.server;
 
 import java.util.ArrayList;
 
@@ -7,15 +7,19 @@ public class Menu {
 	
 	public Menu() {
 		options = new ArrayList<String>();
-		initOptions();
 	}
 	
-	public void initOptions(){
+	public void initAdminOptions(){
 		options.add("Ver logs");
 		options.add("Desconectar usuario");
 		options.add("Ver logs de Usuario");
 		options.add("Ingresar como usuario comun");
 	}
+	public void initUserOptions(){
+//		options.add("Chatear");
+//		options.add("Desconectar usuario");
+	}
+	
 	public ArrayList<String> getOptions(){
 		return this.options;
 	}

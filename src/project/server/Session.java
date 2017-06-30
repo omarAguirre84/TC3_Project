@@ -1,4 +1,4 @@
-package proyect.server;
+package project.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,9 +8,9 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import proyect.user.User;
-import proyect.user.UserFactory;
-import proyect.user.UserType;
+import project.user.User;
+import project.user.UserFactory;
+import project.user.UserType;
 
 public class Session extends Thread {
 
@@ -18,9 +18,9 @@ public class Session extends Thread {
 	private String userName;
 	private PrintWriter out;
 	private BufferedReader in;
-	private String adminPass = "123";
 	private SessionManager sessionManager;
 	private User user;
+	private Menu menu;
 
 	public Session(Socket clientSocket, SessionManager sm) {
 		userName = null;
@@ -42,7 +42,7 @@ public class Session extends Thread {
 			userName = this.receive();
 		} while (userName.length() < 3 || userName.equals(null));
 
-		if (isAdmin(userName)) {
+		if (inputAdmin(userName)) {
 			adminLogin();
 		} else {
 			user = UserFactory.userCreate(userName, UserType.CLIENT, null);
@@ -76,9 +76,17 @@ public class Session extends Thread {
 		send("ELIJA OPCION: ");
 		String option = receive();
 	}
-
-
-	public boolean isAdmin(String u) {
+	
+	public String ask3TimesToMeetCondition(String what, String cond) {
+		String res = null;
+		int cont = 0;
+		while(cont < 3){
+			send(what);
+			res = receive();
+		}
+		return res;
+	}
+	public boolean inputAdmin(String u) {
 		return (u.equals("admin")) ? true : false;
 	}
 
@@ -113,10 +121,7 @@ public class Session extends Thread {
 			if (sessionManager.isActiveSession(this)) {
 				String client_socket = clientSocket.getRemoteSocketAddress().toString().replace("/", "");
 
-				this.sessionManager.getMessageLogger().setAllMembers(this.userName, client_socket, msg);
-
-				String msgToLog = this.sessionManager.getMessageLogger().formReg();
-				this.sessionManager.getMessageLogger().getData().save(msgToLog);
+				sessionManager.getMessageLogger().logToFile(userName, client_socket, msg);
 
 				sendAll(userName + ": " + msg);
 			}

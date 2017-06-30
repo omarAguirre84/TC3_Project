@@ -1,22 +1,24 @@
-package proyect.server;
+package project.server;
 
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public final class Server {
-	private ServerSocket serverSocket;
 	private static Server instance;
-
+	private ServerSocket serverSocket;
 	private SessionManager sessionManager;
-
+	private FileHelper fileHelper;
+	
 	private int serverDefaultPort;
 	private String serverIp;
-
+	
 	private Server() {
 		sessionManager = new SessionManager();
+		fileHelper = new FileHelperImpl();
+		
 		boolean done = false;
-
+		
 		do {
 			try {
 				serverDefaultPort = 8080;

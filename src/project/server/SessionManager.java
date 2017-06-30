@@ -1,17 +1,14 @@
-package proyect.server;
+package project.server;
 
 import java.util.ArrayList;
 
 public final class SessionManager {
 	private ArrayList<Session> sessionsList;
-	private MessageLogger messageLogger;
 	
 	
 	public SessionManager(){
-		this.messageLogger = MessageLogger.getInstance();
-		this.sessionsList = new ArrayList<Session>(); 
+		sessionsList = new ArrayList<Session>(); 
 	}
-
 	
 	public void addSession(Session session) {
 		this.sessionsList.add(session);
@@ -26,7 +23,7 @@ public final class SessionManager {
 			}
 		return res;
 	}
-
+	
 	public void destroySession(Session session) {
 		String name = session.getUser();
 		try {
@@ -49,9 +46,9 @@ public final class SessionManager {
 		}
 		return res;
 	}
-	public MessageLogger getMessageLogger(){
-		return this.messageLogger;
-	}
+//	public Logger getMessageLogger(){
+//		return logger;
+//	}
 	public ArrayList<Session> getSessionsList() {
 		return sessionsList;
 	}

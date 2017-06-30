@@ -1,4 +1,4 @@
-package proyect.user;
+package project.user;
 
 public class Admin extends User{
 

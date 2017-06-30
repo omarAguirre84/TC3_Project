@@ -1,4 +1,6 @@
-package proyect.user;
+package project.user;
+
+import project.server.Menu;
 
 public class UserFactory {
 

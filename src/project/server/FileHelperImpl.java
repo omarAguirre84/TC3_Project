@@ -1,4 +1,4 @@
-package proyect.server;
+package project.server;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -10,15 +10,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import proyect.server.files.OrtFileUtils;
+import project.server.fileUtils.OrtFileUtils;
 
-public final class Data {
+public final class FileHelperImpl implements FileHelper{
 	private File file;
-	private ArrayList<String> logsToSave;
+	private ArrayList<String> logsStack;
 	private int cont;
 
-	public Data() {
-		this.logsToSave = new ArrayList<String>();
+	public FileHelperImpl() {
+		this.logsStack = new ArrayList<String>();
 		this.cont = 0;
 
 		try {
@@ -28,30 +28,52 @@ public final class Data {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	@Override
 	public void save(String msg) {
-		logsToSave.add(msg);
+		logsStack.add(msg);
 		cont++;
 		if (cont >= 10) {
 			if (writeTheFileToDisk(file)) {
-				logsToSave.clear();
+				logsStack.clear();
 				cont = 0;
 			}
 		}
 	}
-
-	public void forcedSave(String msg) {
-//		logsToSave.add(msg);
-//		cont++;
-//		if (cont >= 10) {
-//			if (writeTheFileToDisk(file)) {
-//				logsToSave.clear();
-//				cont = 0;
-//			}
-//		}
+	@Override
+	public ArrayList<String> getAll() {
+		ArrayList<String> res = null;
+		if (this.file.exists()) {
+			String a = file.getName();
+			if (!file.canRead()) {
+				file.setReadable(true);
+			}
+			try {
+				res = new ArrayList<String>();
+				FileReader fr = new FileReader(file);
+				BufferedReader br = new BufferedReader(fr);
+				do {
+					String row = br.readLine();
+					res.add(row);
+				} while (br.ready());
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		return res;
 	}
-
-	public boolean writeTheFileToDisk(File file) {
+	@Override
+	public ArrayList<String> getByParam(String param) {
+		ArrayList<String> res = null;
+		res = new ArrayList<String>();
+		
+		return res;
+	}
+	@Override
+	public void deleteByParam(String param){
+		
+	}
+	private boolean writeTheFileToDisk(File file) {
 		boolean res = false;
 
 		if (!file.canWrite()) {
@@ -65,7 +87,7 @@ public final class Data {
 				fw = new FileWriter(file);
 			}
 
-			for (String s : logsToSave) {
+			for (String s : logsStack) {
 				fw.write(s + "\n");
 			}
 			fw.flush();
@@ -76,32 +98,6 @@ public final class Data {
 			System.out.println(e.getMessage());
 		}
 		return res;
-	}
-
-	public void readTheFile() {
-		if (this.file.exists()) {
-			String a = file.getName();
-			if (!file.canRead()) {
-				file.setReadable(true);
-			}
-			try {
-				// FileInputStream fis = new FileInputStream(f);
-				FileReader fr = new FileReader(file);
-				BufferedReader br = new BufferedReader(fr);
-				boolean ok = true;
-				do {
-					String row = br.readLine();
-					System.out.println(row);
-				} while (br.ready());
-
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-
-	public void find(String search) {
-
 	}
 
 	private File createFile(String nombre, File folder) {
