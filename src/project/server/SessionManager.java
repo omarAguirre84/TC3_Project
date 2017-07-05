@@ -25,11 +25,11 @@ public final class SessionManager {
 	}
 	
 	public void destroySession(Session session) {
-		String name = session.getUser();
+		String name = session.getUserName();
 		try {
 			if (this.sessionsList.contains(session)) {
-				session.getRequest().close();
-				session.interrupt();
+				session.getClientSocket().close();
+				session.getThread().interrupt();
 				this.sessionsList.remove(session);
 				System.out.println(name + " DESCONECTADO");
 			}

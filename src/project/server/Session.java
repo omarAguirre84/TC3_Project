@@ -7,36 +7,43 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-
+import java.util.Observable;
 import project.user.User;
 import project.user.UserFactory;
 import project.user.UserType;
 
-public class Session extends Thread {
+public class Session extends Observable{
 
 	private Socket clientSocket;
-	private String userName;
 	private PrintWriter out;
 	private BufferedReader in;
 	private SessionManager sessionManager;
 	private User user;
-	private Menu menu;
-
-	public Session(Socket clientSocket, SessionManager sm) {
-		userName = null;
+	private OptionManager menu;
+	private Thread thread;
+	private Logger logger;
+	
+	
+	public Session(Socket clientSocket, SessionManager sessionManager, Logger logger) {
+		thread = new Thread();
+		thread.run();
+		user = null;
+		this.logger = logger;
 		this.clientSocket = clientSocket;
+		this.sessionManager = sessionManager;
+		
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), Charset.forName("UTF8")));
 		} catch (Exception e) {
 		}
 
-		this.sessionManager = sm;
 		userLogin();
 	}
 
 	public void userLogin() {
 		send("PROYECTO CHAT SERVER");
+		String userName=null;
 		do {
 			send("Ingrese Usuario: ");
 			userName = this.receive();
@@ -65,12 +72,12 @@ public class Session extends Thread {
 		send("quit, para salir del chat");
 		
 		send("*************************");
-		int cont = 0;
-		for (String op : user.getMenu().getOptions()) {
-			send(cont + ": " + op);
-			cont++;
-		}
-		send(cont + ": " + "quit para salir");
+		//		for (String op : user.getMenu().getOptions()) {
+//			send(cont + ": " + op);
+//			cont++;
+//		}int cont = 0;
+
+//		send(cont + ": " + "quit para salir");
 		send("*************************");
 		//Validar
 		send("ELIJA OPCION: ");
@@ -121,9 +128,8 @@ public class Session extends Thread {
 			if (sessionManager.isActiveSession(this)) {
 				String client_socket = clientSocket.getRemoteSocketAddress().toString().replace("/", "");
 
-				sessionManager.getMessageLogger().logToFile(userName, client_socket, msg);
-
-				sendAll(userName + ": " + msg);
+				logger.update(this, msg);
+				sendAll(this.getUserName() + ": " + msg);
 			}
 		} catch (IOException | NullPointerException e) {
 			sessionManager.destroySession(this);
@@ -131,12 +137,18 @@ public class Session extends Thread {
 		return msg;
 	}
 
-	public Socket getRequest() {
+	public Socket getClientSocket() {
 		return clientSocket;
 	}
 
-	public String getUser() {
-		return this.userName;
+	public User getUser() {
+		return this.user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public String getUserName() {
+		return this.user.getUserName();
 	}
 
 	public void setSessionManager(SessionManager sm) {
@@ -146,7 +158,7 @@ public class Session extends Thread {
 	private void sendAll(String msg) {
 		try {
 			for (Session s : sessionManager.getSessionsList()) {
-				if (this.clientSocket.hashCode() != s.getRequest().hashCode() && !msg.contains("admin")) {
+				if (this.clientSocket.hashCode() != s.getClientSocket().hashCode() && !msg.contains("admin")) {
 					s.send(msg);
 				}
 			}
@@ -164,4 +176,9 @@ public class Session extends Thread {
 			}
 		}
 	}
+
+	public Thread getThread() {
+		return thread;
+	}
+	
 }

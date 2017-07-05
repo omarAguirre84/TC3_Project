@@ -2,10 +2,10 @@ package project.server;
 
 import java.util.ArrayList;
 
-public class Menu {
+public class OptionManager {
 	private ArrayList<String> options;
 	
-	public Menu() {
+	public OptionManager() {
 		options = new ArrayList<String>();
 	}
 	

@@ -1,7 +1,5 @@
 package project.user;
 
-import project.server.Menu;
-
 public class UserFactory {
 
 	public static User userCreate(String userName, UserType userType, String pass) {

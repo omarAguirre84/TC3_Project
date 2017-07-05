@@ -5,49 +5,44 @@ import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 
-public final class Logger {
-	private static final String SEPARATOR = "; ";
-	private static final String eof = "; ";
-	private static StringBuilder messageToLog;
-	
-	private static Calendar date;
-	private static FileHelper fileHelper;
+public final class Logger implements Observer {
+	private final String SEPARATOR = "; ";
+	private final String eof = "; ";
+	private Calendar date;
+	private FileHelper fileHelper;
 
-	private Logger() {
+	public Logger(FileHelper fileHelper) {
+		this.fileHelper = fileHelper;
 	}
 	
-	public static void log(String who, String socket, String content) {
-		messageToLog = new StringBuilder();
-		
-		messageToLog.append(getNowDate());
-		messageToLog.append(SEPARATOR);
-		messageToLog.append(who);
-		messageToLog.append(SEPARATOR);
-		messageToLog.append(socket);
-		messageToLog.append(SEPARATOR);
-		messageToLog.append(content + eof);
+	public void log(String who, String socket, String content) {
+		fileHelper.save(
+				getNowDate()+
+				SEPARATOR+
+				who+
+				SEPARATOR+
+				socket+
+				SEPARATOR+
+				content + eof
+		);
 	}
-//	private static String formReg(String who, String socket, String content) {
-//		 return getNowDate()
-//				 + SEPARATOR
-//				 + who
-//				 + SEPARATOR
-//				 + socket
-//				 + SEPARATOR
-//				 + content + eof;
-//	}
 	
-	private static String getTodayDate() {
+	private String getTodayDate() {
 		date = Calendar.getInstance();
 		date.add(Calendar.DATE, 0);
 		return new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss").format(date.getTime());
 	}
-	private static String getNowDate() {
+	private String getNowDate() {
 		Calendar date = Calendar.getInstance();
 		date.add(Calendar.DATE, 0);
 		return new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss.SSS").format(date.getTime()).toString();
 	}
-	public static void setFileHelper(FileHelper fh){
-		fileHelper = fh;
+
+	@Override
+	public void update(Observable o, Object arg) {
+		String who = ((Session) o).getUserName();
+		String socket = ((Session) o).getClientSocket().getRemoteSocketAddress().toString().replace("/", "");
+		String content = arg.toString();
+		this.log(who, socket, content);
 	}
 }

@@ -16,18 +16,16 @@ public final class Server {
 	private Server() {
 		sessionManager = new SessionManager();
 		fileHelper = new FileHelperImpl();
-		Logger.setFileHelper(fileHelper);
-		
+		serverDefaultPort = 8080;
 		boolean done = false;
 		
 		do {
 			try {
-				serverDefaultPort = 8080;
 				serverSocket = new ServerSocket(serverDefaultPort);
 				serverSocket.setSoTimeout(0);
 				serverIp = InetAddress.getLocalHost().getHostAddress();
 				System.out.println("Servidor escuchando en " + serverIp + ":" + serverSocket.getLocalPort());
-
+				
 				done = true;
 			} catch (Exception e) {
 				System.out.println("Puerto " + serverDefaultPort + " ocupado, intentando con otro");
@@ -46,7 +44,7 @@ public final class Server {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						Session s = new Session(clientSocket, sessionManager);
+						Session s = new Session(clientSocket, sessionManager, new Logger(fileHelper));
 						sessionManager.addSession(s);
 						s.process();
 					}
@@ -58,10 +56,12 @@ public final class Server {
 	}
 
 	public static Server getInstance() {
-		if (instance == null) {
-			instance = new Server();
-		}
-		return instance;
+		return (instance == null) ?	instance = new Server() : instance;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		throw new CloneNotSupportedException();
 	}
 
 	// public ArrayList<Session> getSessions() {
