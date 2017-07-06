@@ -7,14 +7,14 @@ import java.net.Socket;
 public final class Server {
 	private static Server instance;
 	private ServerSocket serverSocket;
-	private SessionManager sessionManager;
+	private ClientManager sessionManager;
 	private FileHelper fileHelper;
 	
 	private int serverDefaultPort;
 	private String serverIp;
 	
 	private Server() {
-		sessionManager = new SessionManager();
+		sessionManager = new ClientManager();
 		fileHelper = new FileHelperImpl();
 		serverDefaultPort = 8080;
 		boolean done = false;
@@ -44,7 +44,7 @@ public final class Server {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						Session s = new Session(clientSocket, sessionManager, new Logger(fileHelper));
+						Client s = new Client(clientSocket, sessionManager, new Logger(fileHelper));
 						sessionManager.addSession(s);
 						s.process();
 					}

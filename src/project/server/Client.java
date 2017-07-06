@@ -12,19 +12,19 @@ import project.user.User;
 import project.user.UserFactory;
 import project.user.UserType;
 
-public class Session extends Observable{
+public class Client extends Observable{
 
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
-	private SessionManager sessionManager;
+	private ClientManager sessionManager;
 	private User user;
 	private OptionManager menu;
 	private Thread thread;
 	private Logger logger;
 	
 	
-	public Session(Socket clientSocket, SessionManager sessionManager, Logger logger) {
+	public Client(Socket clientSocket, ClientManager sessionManager, Logger logger) {
 		thread = new Thread();
 		thread.run();
 		user = null;
@@ -151,13 +151,13 @@ public class Session extends Observable{
 		return this.user.getUserName();
 	}
 
-	public void setSessionManager(SessionManager sm) {
+	public void setSessionManager(ClientManager sm) {
 		this.sessionManager = sm;
 	}
 
 	private void sendAll(String msg) {
 		try {
-			for (Session s : sessionManager.getSessionsList()) {
+			for (Client s : sessionManager.getSessionsList()) {
 				if (this.clientSocket.hashCode() != s.getClientSocket().hashCode() && !msg.contains("admin")) {
 					s.send(msg);
 				}

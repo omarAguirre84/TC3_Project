@@ -2,21 +2,21 @@ package project.server;
 
 import java.util.ArrayList;
 
-public final class SessionManager {
-	private ArrayList<Session> sessionsList;
+public final class ClientManager {
+	private ArrayList<Client> sessionsList;
 	
 	
-	public SessionManager(){
-		sessionsList = new ArrayList<Session>(); 
+	public ClientManager(){
+		sessionsList = new ArrayList<Client>(); 
 	}
 	
-	public void addSession(Session session) {
+	public void addSession(Client session) {
 		this.sessionsList.add(session);
 	}
 	
-	public boolean isActiveSession(Session session) {
+	public boolean isActiveSession(Client session) {
 		boolean res = false;
-		for (Session s : this.sessionsList) {
+		for (Client s : this.sessionsList) {
 				if (s.hashCode() == session.hashCode()) {
 					res = true;
 				}
@@ -24,7 +24,7 @@ public final class SessionManager {
 		return res;
 	}
 	
-	public void destroySession(Session session) {
+	public void destroySession(Client session) {
 		String name = session.getUserName();
 		try {
 			if (this.sessionsList.contains(session)) {
@@ -37,9 +37,9 @@ public final class SessionManager {
 		}
 	}
 	
-	public Session getSession(Session session) {
-		Session res = null;
-		for (Session s: sessionsList) {
+	public Client getSession(Client session) {
+		Client res = null;
+		for (Client s: sessionsList) {
 			if (s.equals(session)) {
 				res = s;
 			}
@@ -49,10 +49,10 @@ public final class SessionManager {
 //	public Logger getMessageLogger(){
 //		return logger;
 //	}
-	public ArrayList<Session> getSessionsList() {
+	public ArrayList<Client> getSessionsList() {
 		return sessionsList;
 	}
-	public void setSessionsList(ArrayList<Session> sessionsList) {
+	public void setSessionsList(ArrayList<Client> sessionsList) {
 		this.sessionsList = sessionsList;
 	}
 	

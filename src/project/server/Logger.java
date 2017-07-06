@@ -40,8 +40,8 @@ public final class Logger implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		String who = ((Session) o).getUserName();
-		String socket = ((Session) o).getClientSocket().getRemoteSocketAddress().toString().replace("/", "");
+		String who = ((Client) o).getUserName();
+		String socket = ((Client) o).getClientSocket().getRemoteSocketAddress().toString().replace("/", "");
 		String content = arg.toString();
 		this.log(who, socket, content);
 	}
