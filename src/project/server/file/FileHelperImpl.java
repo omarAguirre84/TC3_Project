@@ -1,8 +1,7 @@
-package project.server;
+package project.server.file;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import project.server.fileUtils.OrtFileUtils;
+import project.exceptions.AlreadyExistsException;
 
 public final class FileHelperImpl implements FileHelper{
 	private File file;
@@ -22,7 +21,7 @@ public final class FileHelperImpl implements FileHelper{
 		this.cont = 0;
 
 		try {
-			this.file = createFile("log-" + getTodayDate() + ".txt", this.createDirectory("logs-" + getTodayDate()));
+			this.file = createFile("log-" + getTodayDate() + ".txt", this.createDirectory("logs"));
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -33,7 +32,7 @@ public final class FileHelperImpl implements FileHelper{
 		logsStack.add(msg);
 		cont++;
 		if (cont >= 10) {
-			if (writeTheFileToDisk(file)) {
+			if (writeTheFileToDisk(this.file)) {
 				logsStack.clear();
 				cont = 0;
 			}
@@ -73,6 +72,7 @@ public final class FileHelperImpl implements FileHelper{
 	public void deleteByParam(String param){
 		
 	}
+	
 	private boolean writeTheFileToDisk(File file) {
 		boolean res = false;
 
@@ -115,13 +115,12 @@ public final class FileHelperImpl implements FileHelper{
 		return file;
 	}
 
-	private File createDirectory(String nombre) throws Exception {
-		File folder = null;
+	private File createDirectory(String nombre) throws AlreadyExistsException {
+		File folder = new File(nombre);
 		try {
-			folder = new File(nombre);
 			folder.mkdirs();
 		} catch (Exception e) {
-			throw new Exception("error");
+			throw new AlreadyExistsException("folder "+nombre);
 		}
 		return folder;
 	}
@@ -131,10 +130,4 @@ public final class FileHelperImpl implements FileHelper{
 		date.add(Calendar.DATE, 0);
 		return new SimpleDateFormat("dd-MM-yyyy").format(date.getTime());
 	}
-	// private String getNowDate() {
-	// Calendar date = Calendar.getInstance();
-	// date.add(Calendar.DATE, 0);
-	// return new
-	// SimpleDateFormat("dd-MM-yyyy_HH:mm:ss.SSS").format(date.getTime()).toString();
-	// }
 }

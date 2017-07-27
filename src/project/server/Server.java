@@ -1,16 +1,22 @@
 package project.server;
 
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Enumeration;
+
+import project.server.factories.ProtocolFactory;
+import project.server.factories.Protocol;
+import project.server.file.FileHelper;
+import project.server.file.FileHelperImpl;
+import project.server.logger.Logger;
 
 public final class Server {
 	private static Server instance;
 	private ServerSocket serverSocket;
 	private ClientManager sessionManager;
 	private FileHelper fileHelper;
+	
+	private Protocol serverProtocol;
 	
 	private int serverDefaultPort;
 	private String serverIp;
@@ -20,19 +26,7 @@ public final class Server {
 		fileHelper = new FileHelperImpl();
 		serverDefaultPort = 8080;
 		boolean done = false;
-		try {
-			Enumeration<NetworkInterface> nwis = NetworkInterface.getNetworkInterfaces(); 
-			
-			while (nwis.hasMoreElements()) {
-				NetworkInterface ni = nwis.nextElement(); 
-				if (ni.isUp()) {
-					System.out.println(ni.getDisplayName() +" : "+ ni.getName());
-				}				
-			}
-			
-		} catch (Exception e) {
-		}
-		
+		serverProtocol = ProtocolFactory.selectProtocol();
 		do {
 			try {
 				serverSocket = new ServerSocket(serverDefaultPort);

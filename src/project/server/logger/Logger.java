@@ -1,9 +1,12 @@
-package project.server;
+package project.server.logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
+
+import project.server.Client;
+import project.server.file.FileHelper;
 
 public final class Logger implements Observer {
 	private final String SEPARATOR = "; ";

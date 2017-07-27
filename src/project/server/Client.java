@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.Observable;
 
+import project.server.logger.Logger;
+
 public class Client extends Observable{
 
 	private Socket clientSocket;
@@ -16,7 +18,7 @@ public class Client extends Observable{
 	private ClientManager sessionManager;
 	private Thread thread;
 	private Logger logger;
-	private String userName;
+	private String nickName;
 	
 	
 	public Client(Socket clientSocket, ClientManager sessionManager, Logger logger) {
@@ -25,13 +27,12 @@ public class Client extends Observable{
 		this.logger = logger;
 		this.clientSocket = clientSocket;
 		this.sessionManager = sessionManager;
-		
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), Charset.forName("UTF8")));
 		} catch (Exception e) {
 		}
-
+		
 		userLogin();
 	}
 
@@ -96,7 +97,7 @@ public class Client extends Observable{
 		return this.getUserName();
 	}
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.nickName = userName;
 	}
 
 	public void setSessionManager(ClientManager sm) {
