@@ -1,8 +1,10 @@
 package project.server;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Enumeration;
 
 public final class Server {
 	private static Server instance;
@@ -18,6 +20,18 @@ public final class Server {
 		fileHelper = new FileHelperImpl();
 		serverDefaultPort = 8080;
 		boolean done = false;
+		try {
+			Enumeration<NetworkInterface> nwis = NetworkInterface.getNetworkInterfaces(); 
+			
+			while (nwis.hasMoreElements()) {
+				NetworkInterface ni = nwis.nextElement(); 
+				if (ni.isUp()) {
+					System.out.println(ni.getDisplayName() +" : "+ ni.getName());
+				}				
+			}
+			
+		} catch (Exception e) {
+		}
 		
 		do {
 			try {

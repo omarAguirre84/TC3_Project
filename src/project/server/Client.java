@@ -6,11 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Observable;
-import project.user.User;
-import project.user.UserFactory;
-import project.user.UserType;
 
 public class Client extends Observable{
 
@@ -18,16 +14,14 @@ public class Client extends Observable{
 	private PrintWriter out;
 	private BufferedReader in;
 	private ClientManager sessionManager;
-	private User user;
-	private OptionManager menu;
 	private Thread thread;
 	private Logger logger;
+	private String userName;
 	
 	
 	public Client(Socket clientSocket, ClientManager sessionManager, Logger logger) {
 		thread = new Thread();
 		thread.run();
-		user = null;
 		this.logger = logger;
 		this.clientSocket = clientSocket;
 		this.sessionManager = sessionManager;
@@ -49,39 +43,8 @@ public class Client extends Observable{
 			userName = this.receive();
 		} while (userName.length() < 3 || userName.equals(null));
 
-		if (inputAdmin(userName)) {
-			adminLogin();
-		} else {
-			user = UserFactory.userCreate(userName, UserType.CLIENT, null);
-		}
-		send("***BIENVENIDO: " + user.getUserName() + " ****");
-		send("***TIPO DE USUARIO: " + user.getUserType() + " ****");
+		send("***BIENVENIDO: " + this.getUserName() + " ****");
 		send("quit, para salir del chat");
-	}
-	
-	public void adminLogin() {
-		String pass = null;
-		send("INTENTO DE LOGUEO ADMIN");
-		send("INGRESE PASSWORD: ");
-
-		pass = receive();
-		user = UserFactory.userCreate("ADMIN", UserType.ADMIN, pass);
-		
-		send("***BIENVENIDO: " + user.getUserName() + " ****");
-		send("***TIPO DE USUARIO: " + user.getUserType() + " ****");
-		send("quit, para salir del chat");
-		
-		send("*************************");
-		//		for (String op : user.getMenu().getOptions()) {
-//			send(cont + ": " + op);
-//			cont++;
-//		}int cont = 0;
-
-//		send(cont + ": " + "quit para salir");
-		send("*************************");
-		//Validar
-		send("ELIJA OPCION: ");
-		String option = receive();
 	}
 	
 	public String ask3TimesToMeetCondition(String what, String cond) {
@@ -93,14 +56,7 @@ public class Client extends Observable{
 		}
 		return res;
 	}
-	public boolean inputAdmin(String u) {
-		return (u.equals("admin")) ? true : false;
-	}
-
-	private ArrayList<String> menu() {
-		return null;
-	}
-
+	
 	public void send(String msg) {
 		try {
 			out.println(msg + "\n" + "\r");
@@ -121,13 +77,9 @@ public class Client extends Observable{
 			if (msg.contains("quit")) {
 				sessionManager.destroySession(this);
 			}
-			if (msg.contains("admin")) {
-				this.adminLogin();
-			}
-
 			if (sessionManager.isActiveSession(this)) {
-				String client_socket = clientSocket.getRemoteSocketAddress().toString().replace("/", "");
-
+//				String client_socket = clientSocket.getRemoteSocketAddress().toString().replace("/", "");
+				this.clientSocket.getRemoteSocketAddress().toString().replace("/", "");
 				logger.update(this, msg);
 				sendAll(this.getUserName() + ": " + msg);
 			}
@@ -140,15 +92,11 @@ public class Client extends Observable{
 	public Socket getClientSocket() {
 		return clientSocket;
 	}
-
-	public User getUser() {
-		return this.user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	public String getUserName() {
-		return this.user.getUserName();
+		return this.getUserName();
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public void setSessionManager(ClientManager sm) {

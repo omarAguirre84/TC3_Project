@@ -23,7 +23,7 @@ public final class Logger implements Observer {
 				SEPARATOR+
 				socket+
 				SEPARATOR+
-				content + eof
+				content + eof + "\n"
 		);
 	}
 	
