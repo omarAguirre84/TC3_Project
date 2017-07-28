@@ -16,7 +16,7 @@ public final class Server {
 	private ClientManager sessionManager;
 	private FileHelper fileHelper;
 	
-	private Protocol serverProtocol;
+	private Protocol protocol;
 	
 	private int serverDefaultPort;
 	private String serverIp;
@@ -25,22 +25,9 @@ public final class Server {
 		sessionManager = new ClientManager();
 		fileHelper = new FileHelperImpl();
 		serverDefaultPort = 8080;
-		boolean done = false;
-		serverProtocol = ProtocolFactory.selectProtocol();
-		do {
-			try {
-				serverSocket = new ServerSocket(serverDefaultPort);
-				serverSocket.setSoTimeout(0);
-				serverIp = InetAddress.getLocalHost().getHostAddress();
-				System.out.println("Servidor escuchando en " + serverIp + ":" + serverSocket.getLocalPort());
-				
-				done = true;
-			} catch (Exception e) {
-				System.out.println("Puerto " + serverDefaultPort + " ocupado, intentando con otro");
-			} finally {
-				serverDefaultPort = serverDefaultPort + 100;
-			}
-		} while (!done);
+		protocol = ProtocolFactory.init();
+		
+		
 	}
 
 	public void listen() {

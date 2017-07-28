@@ -42,7 +42,7 @@ public final class Menu {
 			}
 			
 		}
-		return opciones.get(opcionElegida-1);
+		return opciones.get(opcionElegida-1).split("-")[0].trim();
 	}
 	
 	public int pedirOpcion(ArrayList<String> opciones) {
