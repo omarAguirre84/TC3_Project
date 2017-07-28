@@ -25,7 +25,7 @@ public final class ClientManager {
 	}
 	
 	public void destroySession(Client session) {
-		String name = session.getUserName();
+		String name = session.getNickName();
 		try {
 			if (this.sessionsList.contains(session)) {
 				session.getClientSocket().close();

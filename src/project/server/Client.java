@@ -15,18 +15,18 @@ public class Client extends Observable{
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
-	private ClientManager sessionManager;
+	private ClientManager clientManager;
 	private Thread thread;
 	private Logger logger;
 	private String nickName;
 	
 	
-	public Client(Socket clientSocket, ClientManager sessionManager, Logger logger) {
+	public Client(Socket clientSocket, ClientManager clientManager, Logger logger) {
 		thread = new Thread();
 		thread.run();
 		this.logger = logger;
 		this.clientSocket = clientSocket;
-		this.sessionManager = sessionManager;
+		this.clientManager = clientManager;
 		try {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), Charset.forName("UTF8")));
@@ -38,13 +38,13 @@ public class Client extends Observable{
 
 	public void userLogin() {
 		send("PROYECTO CHAT SERVER");
-		String userName=null;
+		nickName=null;
 		do {
 			send("Ingrese Usuario: ");
-			userName = this.receive();
-		} while (userName.length() < 3 || userName.equals(null));
+			nickName = this.receive();
+		} while (nickName.length() < 3 || nickName.equals(null));
 
-		send("***BIENVENIDO: " + this.getUserName() + " ****");
+		send("***BIENVENIDO: " + this.nickName + " ****");
 		send("quit, para salir del chat");
 	}
 	
@@ -63,7 +63,7 @@ public class Client extends Observable{
 			out.println(msg + "\n" + "\r");
 		} catch (Exception e) {
 			try {
-				sessionManager.destroySession(this);
+				clientManager.destroySession(this);
 			} catch (Exception e3) {
 				System.out.println(e3.getMessage());
 			}
@@ -76,16 +76,16 @@ public class Client extends Observable{
 			msg = in.readLine();
 
 			if (msg.contains("quit")) {
-				sessionManager.destroySession(this);
+				clientManager.destroySession(this);
 			}
-			if (sessionManager.isActiveSession(this)) {
+			if (clientManager.isActiveSession(this)) {
 //				String client_socket = clientSocket.getRemoteSocketAddress().toString().replace("/", "");
 				this.clientSocket.getRemoteSocketAddress().toString().replace("/", "");
 				logger.update(this, msg);
-				sendAll(this.getUserName() + ": " + msg);
+				sendAll(this.getNickName() + ": " + msg);
 			}
 		} catch (IOException | NullPointerException e) {
-			sessionManager.destroySession(this);
+			clientManager.destroySession(this);
 		}
 		return msg;
 	}
@@ -93,20 +93,20 @@ public class Client extends Observable{
 	public Socket getClientSocket() {
 		return clientSocket;
 	}
-	public String getUserName() {
-		return this.getUserName();
+	public String getNickName() {
+		return this.nickName;
 	}
-	public void setUserName(String userName) {
-		this.nickName = userName;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public void setSessionManager(ClientManager sm) {
-		this.sessionManager = sm;
+		this.clientManager = sm;
 	}
 
 	private void sendAll(String msg) {
 		try {
-			for (Client s : sessionManager.getSessionsList()) {
+			for (Client s : clientManager.getSessionsList()) {
 				if (this.clientSocket.hashCode() != s.getClientSocket().hashCode() && !msg.contains("admin")) {
 					s.send(msg);
 				}

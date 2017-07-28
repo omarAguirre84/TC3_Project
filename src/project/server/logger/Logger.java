@@ -26,7 +26,7 @@ public final class Logger implements Observer {
 				SEPARATOR+
 				socket+
 				SEPARATOR+
-				content + eof + "\n"
+				content + eof
 		);
 	}
 	
@@ -43,7 +43,7 @@ public final class Logger implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		String who = ((Client) o).getUserName();
+		String who = ((Client) o).getNickName();
 		String socket = ((Client) o).getClientSocket().getRemoteSocketAddress().toString().replace("/", "");
 		String content = arg.toString();
 		this.log(who, socket, content);

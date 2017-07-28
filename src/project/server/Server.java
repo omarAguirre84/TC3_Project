@@ -1,52 +1,53 @@
 package project.server;
 
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import project.server.factories.ProtocolFactory;
-import project.server.factories.Protocol;
 import project.server.file.FileHelper;
 import project.server.file.FileHelperImpl;
 import project.server.logger.Logger;
+import project.server.protocolFactory.Protocol;
+import project.server.protocolFactory.ProtocolFactory;
+import project.server.protocolFactory.ProtocolsEnum;
+import project.server.protocols.Http;
+import project.server.protocols.TcpSocket;
 
 public final class Server {
 	private static Server instance;
 	private ServerSocket serverSocket;
-	private ClientManager sessionManager;
+	private ClientManager clientManager;
 	private FileHelper fileHelper;
 	
 	private Protocol protocol;
 	
-	private int serverDefaultPort;
-	private String serverIp;
-	
 	private Server() {
-		sessionManager = new ClientManager();
+		clientManager = new ClientManager();
 		fileHelper = new FileHelperImpl();
-		serverDefaultPort = 8080;
-		protocol = ProtocolFactory.init();
-		
-		
+		this.protocol = ProtocolFactory.init();
+		this.serverSocket = this.protocol.getServerSocket();
 	}
 
 	public void listen() {
-		while (true) {
-			try {
-				Socket clientSocket = serverSocket.accept();
-				System.out.println("Se conecto " + clientSocket.getRemoteSocketAddress());
-
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						Client s = new Client(clientSocket, sessionManager, new Logger(fileHelper));
-						sessionManager.addSession(s);
-						s.process();
-					}
-				}).start();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+		if (this.protocol instanceof TcpSocket) {
+			while (true) {
+				try {
+					Socket clientSocket = serverSocket.accept();
+					System.out.println("Se conecto " + clientSocket.getRemoteSocketAddress());
+					
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							Client s = new Client(clientSocket, clientManager, new Logger(fileHelper));
+							clientManager.addSession(s);
+							s.process();
+						}
+					}).start();
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 			}
+		}else if(this.protocol instanceof Http){
+			
 		}
 	}
 

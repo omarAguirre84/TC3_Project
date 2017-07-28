@@ -1,4 +1,4 @@
-package project.server.factories;
+package project.server.protocolFactory;
 
 import java.util.ArrayList;
 import java.util.Scanner;

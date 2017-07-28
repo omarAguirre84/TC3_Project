@@ -1,4 +1,4 @@
-package project.server.factories;
+package project.server.protocolFactory;
 
 import java.net.ServerSocket;
 
@@ -6,9 +6,6 @@ public abstract class Protocol {
 	private String port;
 	private ServerSocket serverSocket;
 	private FuncionHttpExample http;
-	
-	
-	
 	
 	
 	
