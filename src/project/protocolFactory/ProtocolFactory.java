@@ -1,4 +1,4 @@
-package project.server.protocolFactory;
+package project.protocolFactory;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -9,10 +9,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-
-import project.server.protocols.Http;
-import project.server.protocols.TcpSocket;;
+import java.util.Enumeration;;
 
 public final class ProtocolFactory {
 	private static ServerSocket serverSocket;
@@ -21,7 +18,7 @@ public final class ProtocolFactory {
 	
 	private ProtocolFactory(){}
 	
-	public static Protocol init() {
+	public static Protocol getProtocol() {
 		serverIp = null;
 		String ifaceName = selectInterface();
 
@@ -32,7 +29,7 @@ public final class ProtocolFactory {
 				NetworkInterface networkInterface = NetworkInterface.getByName(ifaceName);
 			    Enumeration<InetAddress> inetAddress = networkInterface.getInetAddresses();
 			    InetAddress currentAddress;
-			    currentAddress = inetAddress.nextElement();
+//			    currentAddress = inetAddress.nextElement();
 			    
 			    while(inetAddress.hasMoreElements()){
 			        currentAddress = inetAddress.nextElement();
@@ -59,10 +56,11 @@ public final class ProtocolFactory {
 			opciones.add(p.toString());
 		}
 		
-		switch (new Menu("PROTOCOLOS").pedirOpcion(opciones)) {
+		switch (new Menu("****PROTOCOLOS DISPONIBLES****").pedirOpcion(opciones)) {
 		case 1:
 			sp = new Http();
-			sp.setHttp(new FuncionHttpExample());
+			sp.setHttp(new FuncionHttpMock());
+			selectProtocol();
 			break;
 		case 2:
 			sp = new TcpSocket();

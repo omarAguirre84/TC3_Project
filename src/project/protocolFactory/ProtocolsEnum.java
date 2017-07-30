@@ -1,4 +1,4 @@
-package project.server.protocolFactory;
+package project.protocolFactory;
 
 public enum ProtocolsEnum {
 	

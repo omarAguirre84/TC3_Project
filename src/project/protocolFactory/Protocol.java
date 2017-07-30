@@ -1,11 +1,11 @@
-package project.server.protocolFactory;
+package project.protocolFactory;
 
 import java.net.ServerSocket;
 
 public abstract class Protocol {
 	private String port;
 	private ServerSocket serverSocket;
-	private FuncionHttpExample http;
+	private FuncionHttpMock http;
 	
 	
 	
@@ -17,10 +17,10 @@ public abstract class Protocol {
 	public void setServerSocket(ServerSocket serverSocket) {
 		this.serverSocket = serverSocket;
 	}
-	public FuncionHttpExample getHttp() {
+	public FuncionHttpMock getHttp() {
 		return http;
 	}
-	public void setHttp(FuncionHttpExample http) {
+	public void setHttp(FuncionHttpMock http) {
 		this.http = http;
 	}
 	public String getPort() {

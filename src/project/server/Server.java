@@ -3,32 +3,38 @@ package project.server;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import project.server.file.FileHelper;
-import project.server.file.FileHelperImpl;
-import project.server.logger.Logger;
-import project.server.protocolFactory.Protocol;
-import project.server.protocolFactory.ProtocolFactory;
-import project.server.protocolFactory.ProtocolsEnum;
-import project.server.protocols.Http;
-import project.server.protocols.TcpSocket;
+import project.clients.Client;
+import project.clients.ClientManager;
+import project.clients.swicthFactory.Switch;
+import project.clients.swicthFactory.SwitchFactory;
+import project.clients.swicthImpl.SwitchTcpSocketImpl;
+import project.file.FileHelper;
+import project.file.FileHelperImpl;
+import project.logger.Logger;
+import project.protocolFactory.Http;
+import project.protocolFactory.Protocol;
+import project.protocolFactory.ProtocolFactory;
+import project.protocolFactory.ProtocolsEnum;
+import project.protocolFactory.TcpSocket;
 
 public final class Server {
 	private static Server instance;
-	private ServerSocket serverSocket;
+//	private 
 	private ClientManager clientManager;
 	private FileHelper fileHelper;
 	
 	private Protocol protocol;
 	
 	private Server() {
-		clientManager = new ClientManager();
 		fileHelper = new FileHelperImpl();
-		this.protocol = ProtocolFactory.init();
-		this.serverSocket = this.protocol.getServerSocket();
+		clientManager = new ClientManager(new Logger(fileHelper));
+		this.protocol = ProtocolFactory.getProtocol();
 	}
 
 	public void listen() {
 		if (this.protocol instanceof TcpSocket) {
+			ServerSocket serverSocket = this.protocol.getServerSocket();
+			
 			while (true) {
 				try {
 					Socket clientSocket = serverSocket.accept();
@@ -37,9 +43,15 @@ public final class Server {
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							Client s = new Client(clientSocket, clientManager, new Logger(fileHelper));
-							clientManager.addSession(s);
-							s.process();
+							clientManager.newTcpSocketClient(clientSocket);
+//							Client client = new Client(clientManager);
+//							Switch sw = SwitchFactory.makeSwitch(ProtocolsEnum.TCP_SOCKET);
+//							((SwitchTcpSocketImpl) sw).setClientSocket(clientSocket);
+//							
+//							client.setSw(sw);
+//							clientManager.addObserver(client);
+//							client.getSw().process();
+							
 						}
 					}).start();
 				} catch (Exception e) {
