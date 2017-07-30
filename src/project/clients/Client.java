@@ -39,13 +39,13 @@ public class Client implements Observer{
 		this.clientManager.notifyObservers(this, msg);
 	}
 	
-	public void interceptorQuit(String msg) {
+	public void msgContainsQuit(String msg) {
 		if (msg.contains("quit")) {
 			clientManager.deleteObserver(this);
 		}
 	}
-	public boolean interceptorMsgIsNull(String msg) {
-		msg.equals(null)? return true; : return false;
+	public boolean msgIsEmpty(String msg) {
+		return (msg.equals(null) || msg.equals(""))? true : false;
 		
 	}
 

@@ -5,18 +5,14 @@ import project.exceptions.ClientDisconectedException;
 
 public class SwitchHttpImpl implements Switch{
 
-	public SwitchHttpImpl() {
-		
-	}
-
 	@Override
-	public void send(String msg) throws ClientDisconectedException {
+	public void send(String msg) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public String receive() throws ClientDisconectedException {
+	public String receive() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -38,4 +34,12 @@ public class SwitchHttpImpl implements Switch{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void initInAndOut() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

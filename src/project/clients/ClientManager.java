@@ -38,38 +38,22 @@ public final class ClientManager extends Observable{
 		((SwitchTcpSocketImpl) sw).getThread().run();
 		client.setSw(sw);
 		
-		
-//		client.userWelcome();
 		client.getSw().process();
 	}
 
 	public void notifyObservers(Client observer, String msg) {
 		for (Client c : this.getObserversList()) {
-//			if (observer.getClientSocket().hashCode() != c.getClientSocket().hashCode()) {
 			if (observer.getNickName() != c.getNickName()) {
-//				try {
 				c.getSw().send(observer.getNickName() +": "+ msg);
-//					else {
-//						c.getSw().send("cliente sin nickname: "+ msg);
-//					}
-//				} catch (ClientDisconectedException e) {
-//					deleteObserver(c);
-//				} catch (NullPointerException e){
-//					try {
-//						c.getSw().send("cliente sin nickname: "+ msg);
-//					} catch (ClientDisconectedException e2) {
-//					}
-					
-				}
 			}
-//		}
-		logger.log(observer, msg);
+		}
+		logger.logObserverActivity(observer, msg);
 	}
 	
 	public boolean isActiveClient(Client client) {
 		boolean res = false;
-		for (Client s : this.observersList) {
-				if (s.hashCode() == client.hashCode()) {
+		for (Client cli : this.observersList) {
+				if (cli.hashCode() == client.hashCode()) {
 					res = true;
 				}
 			}
@@ -80,9 +64,8 @@ public final class ClientManager extends Observable{
 		String name = observer.getNickName();
 		try {
 			if (this.observersList.contains(observer)) {
-//				observer.getSw().getClientSocket().close();
-				observer.killSwitch(); //destruye el canal de comunicacion pero no el thread
 				observer.getSw().getThread().interrupt();
+				observer.killSwitch();
 				this.observersList.remove(observer);
 				
 				System.out.println(name + " DESCONECTADO");

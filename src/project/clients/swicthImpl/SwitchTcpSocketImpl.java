@@ -21,11 +21,6 @@ public class SwitchTcpSocketImpl implements Switch{
 	private Thread thread;
 	private String clientIp;
 	
-	public SwitchTcpSocketImpl() {
-//		thread = new Thread();
-//		thread.run();
-	}
-	
 	@Override
 	public void initInAndOut() {
 		try {
@@ -48,10 +43,9 @@ public class SwitchTcpSocketImpl implements Switch{
 		String msg = null;
 		try {
 			msg = in.readLine();
-			client.interceptorMsgNull(msg);
 //			try {
 //				if (!client.getNickName().equals(null)) {
-					if (client.isActiveClient() && client.interceptorMsgNull(msg)) {
+					if (client.isActiveClient() && !client.msgIsEmpty(msg)) {
 						client.update(client, msg);
 					}
 //				}
@@ -81,11 +75,7 @@ public class SwitchTcpSocketImpl implements Switch{
 		boolean run = true;
 		while (run) {
 			if (!this.clientSocket.isClosed()) {
-//				try {
-					receive();
-//				} catch (ClientDisconectedException e) {
-//					
-//				}
+				receive();
 			} else {
 				run = false;
 			}
