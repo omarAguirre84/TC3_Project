@@ -1,13 +1,14 @@
 package project.clients;
 
 import java.net.Socket;
+import java.rmi.AlreadyBoundException;
 import java.util.ArrayList;
 
 import project.client.observer.Observable;
 import project.clients.swicthFactory.Switch;
 import project.clients.swicthFactory.SwitchFactory;
 import project.clients.swicthImpl.SwitchTcpSocketImpl;
-import project.exceptions.ClientDisconectedException;
+import project.exceptions.AlreadyExistsException;
 import project.logger.Logger;
 import project.protocolFactory.ProtocolsEnum;
 
@@ -26,7 +27,6 @@ public final class ClientManager extends Observable{
 	
 	public void newTcpSocketClient(Socket clientSocket) {
 		Client client = new Client();
-		addObserver(client);
 		
 		client.setClientManager(this);
 		Switch sw = SwitchFactory.makeSwitch(ProtocolsEnum.TCP_SOCKET);
@@ -37,7 +37,7 @@ public final class ClientManager extends Observable{
 		((SwitchTcpSocketImpl) sw).setThread(new Thread());
 		((SwitchTcpSocketImpl) sw).getThread().run();
 		client.setSw(sw);
-		
+		addObserver(client);
 		client.getSw().process();
 	}
 
@@ -73,6 +73,15 @@ public final class ClientManager extends Observable{
 			}
 		} catch (Exception e) {
 		}
+	}
+	
+	public boolean nickNameAlreadyExists(String msg) throws AlreadyExistsException {
+		for (Client client : observersList) {
+			if(client.getNickName().equals(msg)) {
+				throw new AlreadyExistsException("El usuario '"+msg+"' ya existe");
+			}
+		}
+		return false;
 	}
 	
 	public Client getSession(Client session) {

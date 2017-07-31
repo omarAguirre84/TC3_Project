@@ -8,9 +8,6 @@ public abstract class Protocol {
 	private FuncionHttpMock http;
 	
 	
-	
-	
-	
 	public ServerSocket getServerSocket() {
 		return serverSocket;
 	}

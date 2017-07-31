@@ -9,8 +9,6 @@ import java.nio.charset.Charset;
 
 import project.clients.Client;
 import project.clients.swicthFactory.Switch;
-import project.exceptions.ClientDisconectedException;
-import project.protocolFactory.Protocol;
 
 public class SwitchTcpSocketImpl implements Switch{
 
@@ -32,10 +30,7 @@ public class SwitchTcpSocketImpl implements Switch{
 	
 	@Override
 	public void send(String msg) {
-		try {
-			out.println(msg + "\n" + "\r");
-		} catch (Exception e) {
-		}
+		out.println(msg + "\n" + "\r");
 	}
 
 	@Override
@@ -43,18 +38,13 @@ public class SwitchTcpSocketImpl implements Switch{
 		String msg = null;
 		try {
 			msg = in.readLine();
-//			try {
-//				if (!client.getNickName().equals(null)) {
-					if (client.isActiveClient() && !client.msgIsEmpty(msg)) {
-						client.update(client, msg);
-					}
-//				}
-//			} catch (NullPointerException e) {
-//				client.setNickName(msg);
-//			}
+			client.msgContainsQuit(msg);
 			
+			if (client.isActiveClient() && !client.msgIsEmpty(msg)) {
+				client.update(client, msg);
+			}
 		} catch (IOException | NullPointerException e) {
-			
+			client.getClientManager().deleteObserver(client);
 		}
 		return msg;
 	}

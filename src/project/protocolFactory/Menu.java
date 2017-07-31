@@ -8,7 +8,9 @@ public final class Menu {
 	private String titulo;
 
 	
-	private Menu(){};
+	private Menu(){
+		
+	}
 	
 	public Menu(String titulo) {
 		this.titulo = titulo;

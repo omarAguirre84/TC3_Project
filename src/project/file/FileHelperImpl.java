@@ -120,7 +120,7 @@ public final class FileHelperImpl implements FileHelper{
 		try {
 			folder.mkdirs();
 		} catch (Exception e) {
-			throw new AlreadyExistsException("folder "+nombre);
+			throw new AlreadyExistsException("folder ya existe: "+nombre);
 		}
 		return folder;
 	}

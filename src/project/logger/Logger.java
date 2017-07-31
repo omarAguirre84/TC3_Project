@@ -2,8 +2,6 @@ package project.logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Observable;
-import java.util.Observer;
 
 import project.clients.Client;
 import project.file.FileHelper;
@@ -11,7 +9,6 @@ import project.file.FileHelper;
 public final class Logger{
 	private final String SEPARATOR = "; ";
 	private final String eof = "; ";
-	private Calendar date;
 	private FileHelper fileHelper;
 
 	public Logger(FileHelper fileHelper) {

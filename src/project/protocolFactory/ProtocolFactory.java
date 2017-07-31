@@ -29,7 +29,6 @@ public final class ProtocolFactory {
 				NetworkInterface networkInterface = NetworkInterface.getByName(ifaceName);
 			    Enumeration<InetAddress> inetAddress = networkInterface.getInetAddresses();
 			    InetAddress currentAddress;
-//			    currentAddress = inetAddress.nextElement();
 			    
 			    while(inetAddress.hasMoreElements()){
 			        currentAddress = inetAddress.nextElement();
